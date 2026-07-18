@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Clock, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Filigrana } from "@/components/Filigrana";
 import { enlacesNavegacion, siteConfig, urlWhatsApp } from "@/lib/config";
@@ -22,12 +23,19 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Marca */}
           <div>
-            <p className="font-[family-name:var(--font-display)] text-2xl text-stone-50">
-              Alma <span className="italic text-yellow-600">Norteña</span>
+            <Image
+              src="/logo.png"
+              alt={siteConfig.nombre}
+              width={56}
+              height={56}
+              className="rounded-full bg-stone-50 object-contain p-1"
+            />
+            <p className="mt-3 font-[family-name:var(--font-script)] text-lg text-yellow-600">
+              {siteConfig.eslogan}
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-stone-400">
-              Moda y joyería con identidad piurana, desde el corazón artesanal
-              de Catacaos para todo el norte del Perú.
+            <p className="mt-2 text-sm leading-relaxed text-stone-400">
+              Bisutería moderna y accesible, pensada para la mujer real de
+              Piura y todo el norte del Perú.
             </p>
           </div>
 
@@ -112,7 +120,7 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center gap-2 border-t border-stone-800 pt-6 text-center text-xs text-stone-500 sm:flex-row sm:justify-between">
           <p>
-            © {anio} {siteConfig.nombre} · Catacaos, Piura, Perú
+            © {anio} {siteConfig.nombre} · {siteConfig.contacto.direccion}
           </p>
           <p>Hecho con orgullo norteño 🌵</p>
         </div>

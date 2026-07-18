@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { DM_Sans, Dancing_Script } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/CartProvider";
@@ -7,15 +7,15 @@ import { WhatsAppFlotante } from "@/components/WhatsAppFlotante";
 import { siteConfig } from "@/lib/config";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
-const inter = Inter({
+const script = Dancing_Script({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-dancing",
   display: "swap",
 });
 
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
   },
   description: siteConfig.descripcion,
   keywords: [
-    "moda femenina Piura",
-    "joyería Catacaos",
-    "filigrana de plata",
-    "paja toquilla",
-    "boutique Piura",
-    "vestidos Piura",
-    "accesorios artesanales Perú",
+    "bisutería Piura",
+    "accesorios de moda Perú",
+    "aretes de moda",
+    "collares minimalistas",
+    "pulseras de moda",
+    "bisutería juvenil",
+    "regalos para mujer Piura",
     "envío gratis Piura",
   ],
   openGraph: {
@@ -53,19 +53,19 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   other: {
     "geo.region": "PE-PIU",
-    "geo.placename": "Piura, Catacaos",
+    "geo.placename": "Piura",
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#92400e",
+  themeColor: "#a9793b",
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "ClothingStore",
+  "@type": "JewelryStore",
   name: siteConfig.nombre,
   description: siteConfig.descripcion,
   url: siteConfig.url,
@@ -74,7 +74,6 @@ const jsonLd = {
   address: {
     "@type": "PostalAddress",
     streetAddress: siteConfig.contacto.direccion,
-    addressLocality: "Catacaos",
     addressRegion: "Piura",
     addressCountry: "PE",
   },
@@ -91,7 +90,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es-PE" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="es-PE" className={`${dmSans.variable} ${script.variable}`}>
       <body className="bg-stone-50 text-stone-900">
         <script
           type="application/ld+json"

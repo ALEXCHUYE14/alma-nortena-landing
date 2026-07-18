@@ -16,7 +16,7 @@ const aparecer = {
 
 export function Hero() {
   return (
-    <section className="textura-toquilla relative overflow-hidden pt-24 lg:pt-32">
+    <section className="textura-toquilla relative overflow-hidden pt-28 lg:pt-36">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:pb-24">
         {/* Columna de texto */}
         <div>
@@ -28,7 +28,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-yellow-600/40 bg-white/70 px-3 py-1 text-xs font-medium tracking-wide text-amber-800"
           >
             <Sparkles size={13} aria-hidden="true" className="text-yellow-600" />
-            Hecho con manos piuranas
+            Bisutería con esencia piurana
           </motion.p>
 
           <motion.h1
@@ -36,10 +36,12 @@ export function Hero() {
             initial="hidden"
             animate="visible"
             variants={aparecer}
-            className="mt-5 font-[family-name:var(--font-display)] text-4xl leading-[1.1] text-stone-900 sm:text-5xl lg:text-6xl"
+            className="mt-5 font-[family-name:var(--font-display)] text-4xl font-bold leading-[1.1] text-stone-900 sm:text-5xl lg:text-6xl"
           >
-            La elegancia del norte,{" "}
-            <span className="italic text-amber-800">tejida para ti</span>
+            Elegancia,{" "}
+            <span className="font-[family-name:var(--font-script)] font-normal italic text-amber-800">
+              sin complicaciones
+            </span>
           </motion.h1>
 
           <motion.p
@@ -49,9 +51,9 @@ export function Hero() {
             variants={aparecer}
             className="mt-5 max-w-lg text-base leading-relaxed text-stone-900/75 sm:text-lg"
           >
-            Vestidos frescos para el calor piurano, filigrana de plata de
-            Catacaos y accesorios de paja toquilla. Diseñado para la mujer
-            norteña que brilla en cada esquina de Piura.
+            Aretes, collares, pulseras y sets combinados pensados para el
+            diario, la oficina, el colegio y esos eventos que quieres lucir
+            distinta. Bisutería moderna y accesible para la mujer real.
           </motion.p>
 
           <motion.div
@@ -63,7 +65,7 @@ export function Hero() {
           >
             <a
               href="#coleccion"
-              className="inline-flex items-center justify-center rounded-full bg-amber-800 px-7 py-3.5 font-medium text-stone-50 shadow-lg shadow-amber-800/20 transition-all duration-200 hover:scale-[1.02] hover:bg-amber-900"
+              className="inline-flex items-center justify-center rounded-full bg-amber-800 px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 shadow-lg shadow-amber-800/20 transition-all duration-200 hover:scale-[1.02] hover:bg-amber-900"
             >
               Ver colección
             </a>
@@ -71,7 +73,7 @@ export function Hero() {
               href={urlWhatsApp()}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-amber-800 px-7 py-3.5 font-medium text-amber-800 transition-all duration-200 hover:scale-[1.02] hover:bg-amber-800/5"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-amber-800 px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-amber-800 transition-all duration-200 hover:scale-[1.02] hover:bg-amber-800/5"
             >
               <MessageCircle size={18} aria-hidden="true" />
               Hablar con una asesora
@@ -116,7 +118,7 @@ export function Hero() {
           >
             <Image
               src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=800&q=80"
-              alt="Joyería fina en filigrana de plata"
+              alt="Bisutería moderna: aretes y accesorios de GRC"
               fill
               sizes="(min-width: 1024px) 320px, 58vw"
               className="object-cover"
@@ -130,8 +132,8 @@ export function Hero() {
             transition={{ delay: 0.7, type: "spring", stiffness: 200, damping: 16 }}
             className="absolute left-[52%] top-[58%] flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-yellow-600 text-center shadow-lg lg:h-28 lg:w-28"
           >
-            <span className="px-2 font-[family-name:var(--font-display)] text-xs italic leading-tight text-stone-900 lg:text-sm">
-              Filigrana de Catacaos
+            <span className="px-2 font-[family-name:var(--font-script)] text-base leading-tight text-stone-900 lg:text-lg">
+              Esencia Piurana
             </span>
           </motion.div>
         </div>

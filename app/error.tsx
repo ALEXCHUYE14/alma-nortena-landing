@@ -12,7 +12,7 @@ export default function ErrorBoundary({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("Error inesperado en Alma Norteña:", error);
+    console.error("Error inesperado en GRC Bisutería:", error);
   }, [error]);
 
   return (

@@ -1,15 +1,15 @@
-# Alma Norteña — Landing E-commerce Premium
+# GRC Bisutería — Landing E-commerce Premium
 
-Landing page B2C de moda y joyería fina para el público femenino de **Piura Metropolitana y Catacaos**, construida con Next.js 15 (App Router), React 19, TypeScript estricto, Tailwind CSS v4, Supabase (`@supabase/ssr`) y Framer Motion.
+Landing page B2C de bisutería moderna y accesible para el público femenino de **Piura**, construida con Next.js 15 (App Router), React 19, TypeScript estricto, Tailwind CSS v4, Supabase (`@supabase/ssr`) y Framer Motion.
 
 ## Concepto de diseño
 
-**"Calidez Dorada y Elegancia Ancestral"** — minimalismo moderno fusionado con la identidad de Catacaos:
+**"Elegancia con esencia piurana"** — inspirado en el logo de la marca (dorado champán + blush + tipografía DM Sans, en la línea visual de referencias como sifrah.com:
 
-- **Textura de paja toquilla:** trama diagonal cruzada sutil (CSS) en hero, sección de historia y footer.
-- **Divisor de filigrana:** ornamento SVG original con espirales y granetería, inspirado en la orfebrería catacaense, que separa cada sección.
-- **Paleta:** `stone-50` (fondo), `amber-800` (identidad/tierra), `yellow-600` (oro/filigrana), `stone-900` (texto).
-- **Tipografía:** Playfair Display (títulos) + Inter (cuerpo), vía `next/font`.
+- **Textura dorada:** trama diagonal cruzada sutil (CSS) en hero, sección de historia y footer.
+- **Divisor ornamental:** SVG original con espirales y granetería que separa cada sección.
+- **Paleta:** `stone-50` (fondo), `amber-800` sobrescrito a dorado champán (identidad), `yellow-600` sobrescrito a dorado claro, `stone-900` (texto). Ver `app/globals.css` (`@theme`).
+- **Tipografía:** DM Sans (títulos y cuerpo) + Dancing Script (tagline/acentos script), vía `next/font`.
 
 ## Estructura del proyecto
 

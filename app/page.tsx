@@ -47,12 +47,12 @@ export default function PaginaInicio() {
         <section id="coleccion" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
           <Filigrana className="mb-6" />
           <div className="mb-10 text-center">
-            <h2 className="font-[family-name:var(--font-display)] text-3xl text-stone-900 sm:text-4xl">
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
               Nuestra colección
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-stone-900/70">
-              Piezas seleccionadas para el clima y el estilo del norte:
-              frescura, brillo y tradición en cada detalle.
+              Piezas seleccionadas para el diario, la oficina, el colegio y
+              esos momentos especiales que quieres lucir distinta.
             </p>
           </div>
 
@@ -65,18 +65,16 @@ export default function PaginaInicio() {
         <section id="nosotras" className="textura-toquilla py-16 lg:py-24">
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
             <Filigrana className="mb-6" />
-            <h2 className="font-[family-name:var(--font-display)] text-3xl text-stone-900 sm:text-4xl">
-              Del taller de Catacaos a tu puerta
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
+              Elegancia con esencia piurana
             </h2>
             <p className="mt-5 leading-relaxed text-stone-900/75">
-              Cada pieza de filigrana que ves aquí nació en un taller de la
-              Calle Comercio, donde los orfebres de Catacaos llevan
-              generaciones convirtiendo hilos de plata en encaje. Nosotras
-              seleccionamos esas joyas, las combinamos con moda fresca pensada
-              para el sol piurano y te las llevamos hasta tu casa, el mismo
-              día, sin costo. Comprarle a Alma Norteña es vestirse bien y, al
-              mismo tiempo, sostener las manos que mantienen viva nuestra
-              tradición.
+              En GRC Bisutería creemos que verte bien no debería ser
+              complicado ni costoso. Seleccionamos aretes, collares, pulseras
+              y sets combinados pensados para la mujer real: para el diario,
+              para el colegio, para la oficina y para esos eventos que quieres
+              lucir distinta. Todo con una guía cercana por WhatsApp y envío
+              el mismo día en Piura.
             </p>
           </div>
         </section>
@@ -85,7 +83,7 @@ export default function PaginaInicio() {
         <section id="preguntas" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
           <div className="mb-8 text-center">
             <Filigrana className="mb-6" />
-            <h2 className="font-[family-name:var(--font-display)] text-3xl text-stone-900 sm:text-4xl">
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
               Preguntas frecuentes
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-stone-900/70">
@@ -100,8 +98,8 @@ export default function PaginaInicio() {
         <section id="suscripcion" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
           <div className="mb-8 text-center">
             <Filigrana className="mb-6" />
-            <h2 className="font-[family-name:var(--font-display)] text-3xl text-stone-900 sm:text-4xl">
-              Únete al Club Alma
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
+              Únete al Club GRC
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-stone-900/70">
               Preventas, descuentos exclusivos y novedades de la colección,

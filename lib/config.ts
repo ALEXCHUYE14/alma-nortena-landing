@@ -5,25 +5,27 @@ import type { ItemCarrito } from "@/lib/types";
  * Cambia estos valores una sola vez y se propagan a toda la aplicación.
  */
 export const siteConfig = {
-  nombre: "Alma Norteña",
-  eslogan: "Moda y joyería fina en Piura y Catacaos",
+  nombre: "GRC Bisutería",
+  eslogan: "Elegancia con esencia piurana",
   descripcion:
-    "Boutique de moda femenina y joyería en filigrana de plata inspirada en la tradición artesanal de Catacaos. Envíos el mismo día en Piura Metropolitana.",
-  url: "https://almanortena.pe",
+    "Bisutería moderna y accesible: aretes, collares, pulseras y sets combinados pensados para la mujer real. Pedidos por WhatsApp con envío en Piura.",
+  // TODO: reemplazar por el dominio real cuando lo compren (ej. grcbisuteria.pe)
+  url: "https://almanortena.vercel.app",
   whatsapp: {
     numero: "51923872357", // Formato internacional sin "+"
     mensaje:
-      "Hola 👋 Vi la tienda Alma Norteña y me gustaría hablar con una asesora.",
+      "Hola 👋 Vi la tienda GRC Bisutería y me gustaría ver el catálogo.",
   },
   contacto: {
-    direccion: "Calle Comercio 512, Catacaos, Piura",
-    email: "hola@almanortena.pe",
+    // TODO: confirmar dirección real (se quitó la de Alma Norteña por ser de otro negocio)
+    direccion: "Piura, Perú",
+    email: "hola@grcbisuteria.pe",
     horario: "Lun – Sáb · 9:00 a.m. – 8:00 p.m.",
   },
   redes: {
-    instagram: "https://instagram.com/almanortena.pe",
-    facebook: "https://facebook.com/almanortena.pe",
-    tiktok: "https://tiktok.com/@almanortena.pe",
+    instagram: "https://instagram.com/grcbisuteria",
+    facebook: "https://facebook.com/grcbisuteria",
+    tiktok: "https://tiktok.com/@grcbisuteria",
   },
 } as const;
 
@@ -31,7 +33,7 @@ export const enlacesNavegacion = [
   { href: "#coleccion", etiqueta: "Colección" },
   { href: "#nosotras", etiqueta: "Nuestra historia" },
   { href: "#preguntas", etiqueta: "Preguntas frecuentes" },
-  { href: "#suscripcion", etiqueta: "Club Alma" },
+  { href: "#suscripcion", etiqueta: "Club GRC" },
   { href: "#contacto", etiqueta: "Contacto" },
 ] as const;
 
@@ -65,7 +67,7 @@ export function urlWhatsAppPedido(
     .join("\n");
 
   const mensaje =
-    `Hola 👋 Quiero confirmar mi pedido en Alma Norteña:\n\n${detalle}\n\n` +
+    `Hola 👋 Quiero confirmar mi pedido en GRC Bisutería:\n\n${detalle}\n\n` +
     `Total: ${formatearPrecio(total)}\n` +
     `Método de pago: ${metodoPago}\n\n` +
     `Quedo atenta a la confirmación. ¡Gracias!`;

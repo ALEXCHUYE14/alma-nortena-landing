@@ -36,7 +36,7 @@ export function LeadForm() {
       // 23505 = violación de unicidad en PostgreSQL (correo ya registrado)
       setMensajeError(
         error.code === "23505"
-          ? "Este correo ya forma parte del Club Alma. ¡Gracias por acompañarnos!"
+          ? "Este correo ya forma parte del Club GRC. ¡Gracias por acompañarnos!"
           : "No pudimos registrar tu correo. Revisa tu conexión e inténtalo de nuevo."
       );
       return;
@@ -63,7 +63,7 @@ export function LeadForm() {
               aria-hidden="true"
             />
             <h3 className="mt-4 font-[family-name:var(--font-display)] text-2xl text-stone-900">
-              ¡Bienvenida al Club Alma!
+              ¡Bienvenida al Club GRC!
             </h3>
             <p className="mt-2 text-sm text-stone-500">
               Recibirás nuestras novedades, preventas y descuentos exclusivos
@@ -173,7 +173,7 @@ export function LeadForm() {
                 type="button"
                 onClick={manejarEnvio}
                 disabled={estado === "submitting"}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 font-medium text-stone-50 transition-all duration-200 hover:bg-amber-900 active:scale-[0.98] disabled:opacity-70"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-all duration-200 hover:bg-amber-900 active:scale-[0.98] disabled:opacity-70"
               >
                 {estado === "submitting" ? (
                   <>
@@ -181,7 +181,7 @@ export function LeadForm() {
                     Registrando…
                   </>
                 ) : (
-                  "Unirme al Club Alma"
+                  "Unirme al Club GRC"
                 )}
               </button>
 

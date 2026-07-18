@@ -21,9 +21,9 @@ const PREGUNTAS = [
       "Sí, aceptamos cambios coordinando con tu asesora por WhatsApp, siempre que el producto conserve sus etiquetas y no haya sido usado. Escríbenos apenas recibas tu pedido si necesitas un cambio.",
   },
   {
-    pregunta: "¿La joyería es de plata real?",
+    pregunta: "¿De qué materiales son las piezas?",
     respuesta:
-      "Sí. Toda nuestra filigrana está elaborada en plata por orfebres de Catacaos, siguiendo la técnica artesanal tradicional del norte del Perú.",
+      "Trabajamos con bisutería de buena calidad: aleaciones y baños duraderos, pensados para durar y cuidar tu piel. Cada producto indica su material específico en la descripción.",
   },
   {
     pregunta: "¿Cómo sé si un producto sigue disponible?",

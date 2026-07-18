@@ -112,9 +112,9 @@ export function CheckoutModal({
 
         {metodo === "yape" ? (
           <div className="mt-5 text-center">
-            <div className="mx-auto flex h-56 w-56 items-center justify-center overflow-hidden rounded-2xl border border-amber-800/15 bg-stone-50">
+            <div className="mx-auto flex w-72 items-center justify-center overflow-hidden rounded-2xl border border-amber-800/15 bg-white p-3">
               {qrError ? (
-                <div className="flex flex-col items-center gap-2 px-4 text-stone-400">
+                <div className="flex h-56 flex-col items-center justify-center gap-2 px-4 text-stone-400">
                   <QrCode size={40} aria-hidden="true" />
                   <p className="text-xs leading-snug">
                     El código QR de Yape aún no fue configurado en el sitio.
@@ -123,12 +123,12 @@ export function CheckoutModal({
               ) : (
                 <Image
                   src="/yape-qr.png"
-                  alt="Código QR de Yape de Alma Norteña"
-                  width={224}
-                  height={224}
+                  alt="Código QR de Yape de GRC Bisutería"
+                  width={506}
+                  height={274}
                   unoptimized
                   onError={() => setQrError(true)}
-                  className="h-full w-full object-contain"
+                  className="h-auto w-full object-contain"
                 />
               )}
             </div>
@@ -142,7 +142,7 @@ export function CheckoutModal({
             <button
               type="button"
               onClick={() => confirmarPedido("Yape")}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 font-medium text-stone-50 transition-colors hover:bg-amber-900"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900"
             >
               <CheckCircle2 size={18} aria-hidden="true" />
               Ya pagué, enviar comprobante
@@ -164,7 +164,7 @@ export function CheckoutModal({
             <button
               type="button"
               onClick={() => confirmarPedido("Coordinar pago")}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 font-medium text-stone-50 transition-colors hover:bg-amber-900"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900"
             >
               <MessageCircle size={18} aria-hidden="true" />
               Coordinar pago por WhatsApp

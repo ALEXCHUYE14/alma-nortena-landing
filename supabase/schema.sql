@@ -1,5 +1,5 @@
 -- ============================================================
--- ALMA NORTEÑA · Esquema de base de datos
+-- GRC BISUTERÍA · Esquema de base de datos
 -- Ejecutar en: Supabase Dashboard → SQL Editor
 -- ============================================================
 
@@ -83,67 +83,67 @@ create policy "insercion_publica_leads"
 insert into public.productos (nombre, descripcion, precio, imagen_url, categoria, stock)
 values
   (
-    'Aretes Dormilona de Filigrana',
-    'Aretes clásicos de filigrana de plata 950, tejidos a mano por orfebres de Catacaos. La joya insignia del norte.',
-    189.00,
+    'Aretes Luna Minimalista',
+    'Aretes pequeños en baño dorado, diseño minimalista para uso diario.',
+    22.90,
     'https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800&q=80',
-    'Joyería',
-    3
-  ),
-  (
-    'Collar Hilo de Plata Trenzado',
-    'Collar fino de plata 950 con dije central en granetería, ideal para looks de día y de noche.',
-    249.00,
-    'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80',
-    'Joyería',
-    12
-  ),
-  (
-    'Vestido Brisa Piurana',
-    'Vestido midi de algodón pima, corte fluido y fresco, perfecto para el clima cálido de Piura.',
-    159.90,
-    'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80',
-    'Moda',
+    'Aretes',
     18
   ),
   (
-    'Sombrero de Paja Toquilla',
-    'Sombrero tejido a mano con paja toquilla de Catacaos, ala media y cinta color tierra.',
-    139.00,
+    'Collar Cadena Fina Dorada',
+    'Collar de cadena fina con dije delicado, ideal para combinar en capas.',
+    28.90,
+    'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80',
+    'Collares',
+    15
+  ),
+  (
+    'Set Aretes + Collar Combinado',
+    'Set combinado de aretes y collar a juego, listo para regalar.',
+    39.90,
+    'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80',
+    'Sets',
+    10
+  ),
+  (
+    'Diadema Trendy Escolar',
+    'Diadema de moda en tonos pastel, perfecta para el colegio o el diario.',
+    15.90,
     'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=800&q=80',
     'Accesorios',
-    5
+    25
   ),
   (
-    'Pulsera Filigrana Flor de Algarrobo',
-    'Pulsera artesanal de plata 950 con eslabones en forma de flor, inspirada en el bosque seco piurano.',
-    169.00,
+    'Pulsera Charms Boho',
+    'Pulsera ajustable con dijes boho, combina con cualquier look casual.',
+    18.90,
     'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80',
-    'Joyería',
-    8
+    'Pulseras',
+    20
   ),
   (
-    'Blusa Atardecer de Sechura',
-    'Blusa ligera en tonos arena y terracota con bordado artesanal en el escote.',
-    89.90,
+    'Aretes Argolla Dorada',
+    'Argollas medianas bañadas en oro, versátiles para el día o la noche.',
+    24.90,
     'https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=800&q=80',
-    'Moda',
-    22
+    'Aretes',
+    16
   ),
   (
-    'Bolso Tejido Catacaos',
-    'Bolso de mano tejido en fibra natural con asas de cuero y forro interior de tela.',
-    119.00,
+    'Collar Choker Moderno',
+    'Choker corto de estilo moderno, tendencia para looks de oficina y eventos.',
+    26.90,
+    'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80',
+    'Collares',
+    12
+  ),
+  (
+    'Set Escolar Trendy',
+    'Set de accesorios pensado para el colegio: pulsera, aretes y scrunchie a juego.',
+    32.90,
     'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80',
-    'Accesorios',
-    4
-  ),
-  (
-    'Anillo Corona de Filigrana',
-    'Anillo de plata 950 con trabajo de filigrana en espiral, ajustable y hecho a pedido.',
-    129.00,
-    'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80',
-    'Joyería',
-    15
+    'Sets',
+    14
   )
 on conflict do nothing;

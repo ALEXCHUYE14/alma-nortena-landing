@@ -21,14 +21,11 @@ export function ProductGridSkeleton() {
       className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4"
     >
       {Array.from({ length: 8 }).map((_, i) => (
-        <div
-          key={i}
-          className="overflow-hidden rounded-2xl border border-amber-800/10 bg-white"
-        >
-          <div className="skeleton aspect-[4/5] w-full" />
-          <div className="space-y-2 p-4">
-            <div className="skeleton h-4 w-3/4 rounded" />
-            <div className="skeleton h-4 w-1/3 rounded" />
+        <div key={i}>
+          <div className="skeleton aspect-[4/5] w-full rounded-xl" />
+          <div className="mt-3 space-y-2">
+            <div className="skeleton mx-auto h-3 w-1/2 rounded" />
+            <div className="skeleton mx-auto h-4 w-2/3 rounded" />
             <div className="skeleton h-9 w-full rounded-full" />
           </div>
         </div>
@@ -61,20 +58,20 @@ function ProductCard({ producto, indice }: { producto: Producto; indice: number 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: (indice % 4) * 0.07, duration: 0.45 }}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-amber-800/10 bg-white transition-shadow duration-300 hover:shadow-xl hover:shadow-amber-800/10"
+      className="group flex flex-col"
     >
-      <div className="relative aspect-[4/5] overflow-hidden">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-stone-100">
         <Image
           src={producto.imagen_url}
           alt={producto.nombre}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
         {/* Badge dinámico */}
         <span
-          className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-semibold shadow-sm ${
+          className={`absolute left-2.5 top-2.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide shadow-sm ${
             agotado
               ? "bg-stone-900 text-stone-50"
               : pocasUnidades
@@ -85,22 +82,19 @@ function ProductCard({ producto, indice }: { producto: Producto; indice: number 
           {agotado
             ? "Agotado"
             : pocasUnidades
-              ? `¡Pocas unidades! (${producto.stock})`
-              : "Envío gratis a Piura y Catacaos"}
+              ? `Pocas unidades (${producto.stock})`
+              : "Envío gratis"}
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
-        <p className="text-[11px] font-medium uppercase tracking-widest text-yellow-600">
+      <div className="mt-3 flex flex-1 flex-col text-center">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-yellow-600">
           {producto.categoria}
         </p>
-        <h3 className="mt-1 font-[family-name:var(--font-display)] text-base leading-snug text-stone-900">
+        <h3 className="mt-1 font-[family-name:var(--font-display)] text-sm font-medium leading-snug text-stone-900">
           {producto.nombre}
         </h3>
-        <p className="mt-1 line-clamp-2 text-xs text-stone-500">
-          {producto.descripcion}
-        </p>
-        <p className="mt-2 text-lg font-semibold text-amber-800">
+        <p className="mt-1 text-base font-bold text-amber-800">
           {formatearPrecio(producto.precio)}
         </p>
 
@@ -108,7 +102,7 @@ function ProductCard({ producto, indice }: { producto: Producto; indice: number 
           type="button"
           onClick={manejarAgregar}
           disabled={agotado}
-          className={`mt-3 inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-sm font-medium transition-all duration-200 ${
+          className={`mt-3 inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-200 ${
             agotado
               ? "cursor-not-allowed bg-stone-200 text-stone-400"
               : agregado
@@ -118,18 +112,18 @@ function ProductCard({ producto, indice }: { producto: Producto; indice: number 
         >
           {agotado ? (
             <>
-              <PackageX size={16} aria-hidden="true" />
+              <PackageX size={14} aria-hidden="true" />
               Sin stock
             </>
           ) : agregado ? (
             <>
-              <Check size={16} aria-hidden="true" />
-              ¡Agregado!
+              <Check size={14} aria-hidden="true" />
+              Agregado
             </>
           ) : (
             <>
-              <ShoppingBag size={16} aria-hidden="true" />
-              Añadir al carrito
+              <ShoppingBag size={14} aria-hidden="true" />
+              Añadir
             </>
           )}
         </button>
@@ -179,7 +173,7 @@ export function ProductGrid({ productos }: { productos: Producto[] }) {
               type="button"
               onClick={() => setCategoria(c)}
               aria-pressed={categoria === c}
-              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-full border px-4 py-1.5 text-[11px] font-bold uppercase tracking-wider transition-colors ${
                 categoria === c
                   ? "border-amber-800 bg-amber-800 text-stone-50"
                   : "border-amber-800/20 bg-white text-stone-900 hover:border-amber-800/50"

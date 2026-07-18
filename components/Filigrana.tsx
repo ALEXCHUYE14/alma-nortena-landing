@@ -1,7 +1,6 @@
 /**
- * Divisor ornamental inspirado en la filigrana de plata de Catacaos.
- * Espirales simétricas trazadas a mano en SVG — la firma visual que
- * separa las secciones de la página.
+ * Divisor ornamental dorado con espirales simétricas trazadas a mano
+ * en SVG — la firma visual que separa las secciones de la página.
  */
 export function Filigrana({ className = "" }: { className?: string }) {
   return (

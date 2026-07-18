@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Menu,
@@ -15,6 +16,7 @@ import {
 import { enlacesNavegacion, formatearPrecio, siteConfig, urlWhatsApp } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
 import { CheckoutModal } from "@/components/CheckoutModal";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 
 export function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -61,16 +63,21 @@ export function Navbar() {
           conScroll ? "shadow-[0_1px_0_0_rgba(146,64,14,0.15),0_8px_24px_-16px_rgba(28,25,23,0.25)]" : ""
         }`}
       >
+        <AnnouncementBar />
         <nav
           aria-label="Navegación principal"
           className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:h-20"
         >
           {/* Logo */}
-          <Link
-            href="/"
-            className="font-[family-name:var(--font-display)] text-xl tracking-wide text-stone-900 lg:text-2xl"
-          >
-            Alma <span className="italic text-amber-800">Norteña</span>
+          <Link href="/" aria-label={siteConfig.nombre} className="flex items-center">
+            <Image
+              src="/logo-mark.png"
+              alt={siteConfig.nombre}
+              width={160}
+              height={129}
+              priority
+              className="h-11 w-auto object-contain lg:h-14"
+            />
           </Link>
 
           {/* Navegación desktop */}
@@ -90,7 +97,7 @@ export function Navbar() {
                 href={urlWhatsApp()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-4 py-2 text-sm font-medium text-stone-50 transition-transform duration-200 hover:scale-[1.03] hover:bg-amber-900"
+                className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-transform duration-200 hover:scale-[1.03] hover:bg-amber-900"
               >
                 <MessageCircle size={16} aria-hidden="true" />
                 Escríbenos
@@ -149,9 +156,13 @@ export function Navbar() {
             className="textura-toquilla-oscura fixed inset-0 z-50 flex flex-col lg:hidden"
           >
             <div className="flex h-16 items-center justify-between px-4">
-              <span className="font-[family-name:var(--font-display)] text-xl text-stone-50">
-                Alma <span className="italic text-yellow-600">Norteña</span>
-              </span>
+              <Image
+                src="/logo-mark.png"
+                alt={siteConfig.nombre}
+                width={160}
+                height={129}
+                className="h-11 w-auto rounded-xl bg-stone-50 object-contain p-1.5"
+              />
               <button
                 type="button"
                 onClick={() => setMenuAbierto(false)}
@@ -193,7 +204,7 @@ export function Navbar() {
                 href={urlWhatsApp()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-3 rounded-full bg-yellow-600 py-4 text-base font-semibold text-stone-900 transition-transform active:scale-[0.98]"
+                className="flex w-full items-center justify-center gap-3 rounded-full bg-yellow-600 py-4 text-xs font-bold uppercase tracking-wider text-stone-900 transition-transform active:scale-[0.98]"
               >
                 <MessageCircle size={20} aria-hidden="true" />
                 Hablar con una asesora
@@ -321,7 +332,7 @@ export function Navbar() {
                   <button
                     type="button"
                     onClick={() => setCheckoutAbierto(true)}
-                    className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 font-medium text-stone-50 transition-colors hover:bg-amber-900"
+                    className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900"
                   >
                     <MessageCircle size={18} aria-hidden="true" />
                     Finalizar compra

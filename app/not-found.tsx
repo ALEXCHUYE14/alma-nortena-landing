@@ -7,7 +7,7 @@ export default function NotFound() {
       <Filigrana className="mb-6" />
       <p className="font-[family-name:var(--font-display)] text-7xl text-amber-800">404</p>
       <h1 className="mt-3 font-[family-name:var(--font-display)] text-2xl text-stone-900">
-        Esta página se perdió en el camino a Catacaos
+        Esta pieza se nos perdió en el camino
       </h1>
       <p className="mt-3 max-w-md text-stone-500">
         No encontramos lo que buscabas, pero nuestra colección completa te
