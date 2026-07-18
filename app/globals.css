@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  --color-toquilla-50: #fdfaf3;
+  --color-toquilla-200: #ecdcc0;
+  --color-filigrana: #ca8a04; /* yellow-600: oro / filigrana */
+  --color-tierra: #92400e; /* amber-800: paja toquilla y tierra */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Firma visual: textura de tejido de paja toquilla.
+   Trama diagonal cruzada muy sutil, evoca el sombrero de
+   Catacaos sin competir con el contenido.
+   ============================================================ */
+.textura-toquilla {
+  background-color: #fdfaf3;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(146, 64, 14, 0.045) 0px,
+      rgba(146, 64, 14, 0.045) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(202, 138, 4, 0.035) 0px,
+      rgba(202, 138, 4, 0.035) 1px,
+      transparent 1px,
+      transparent 14px
+    );
+}
+
+.textura-toquilla-oscura {
+  background-color: #1c1917; /* stone-900 */
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(202, 138, 4, 0.06) 0px,
+      rgba(202, 138, 4, 0.06) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(202, 138, 4, 0.04) 0px,
+      rgba(202, 138, 4, 0.04) 1px,
+      transparent 1px,
+      transparent 14px
+    );
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e7e5e4 25%, #f5f5f4 50%, #e7e5e4 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* Accesibilidad: foco visible coherente con la identidad */
+:focus-visible {
+  outline: 2px solid #92400e;
+  outline-offset: 2px;
+}
+
+/* Respeto a usuarios con movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .skeleton {
+    animation: none;
+  }
+}
