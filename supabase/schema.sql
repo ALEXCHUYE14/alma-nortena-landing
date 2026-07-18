@@ -11,18 +11,27 @@ create extension if not exists "pgcrypto";
 -- 1. TABLA: productos
 -- ============================================================
 create table if not exists public.productos (
-  id          uuid primary key default gen_random_uuid(),
-  nombre      text not null,
-  descripcion text not null default '',
-  precio      numeric(10, 2) not null check (precio >= 0),
-  imagen_url  text not null,
-  categoria   text not null,
-  stock       int not null default 0 check (stock >= 0),
-  created_at  timestamptz not null default now()
+  id              uuid primary key default gen_random_uuid(),
+  nombre          text not null,
+  descripcion     text not null default '',
+  precio          numeric(10, 2) not null check (precio >= 0),
+  precio_original numeric(10, 2) check (precio_original is null or precio_original >= 0),
+  imagen_url      text not null,
+  categoria       text not null,
+  stock           int not null default 0 check (stock >= 0),
+  created_at      timestamptz not null default now()
 );
+
+-- Si la tabla ya existía (proyecto en producción), agrega la columna
+-- nueva sin perder los productos ya cargados. Es seguro re-ejecutar.
+alter table public.productos
+  add column if not exists precio_original numeric(10, 2);
 
 comment on table public.productos is
   'Catálogo público de productos de la boutique.';
+
+comment on column public.productos.precio_original is
+  'Precio "antes" opcional. Solo se muestra descuento si es mayor que "precio".';
 
 create index if not exists idx_productos_categoria
   on public.productos (categoria);
@@ -80,12 +89,13 @@ create policy "insercion_publica_leads"
 -- ============================================================
 -- 4. DATOS DE EJEMPLO (seed)
 -- ============================================================
-insert into public.productos (nombre, descripcion, precio, imagen_url, categoria, stock)
+insert into public.productos (nombre, descripcion, precio, precio_original, imagen_url, categoria, stock)
 values
   (
     'Aretes Luna Minimalista',
     'Aretes pequeños en baño dorado, diseño minimalista para uso diario.',
     22.90,
+    32.90,
     'https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800&q=80',
     'Aretes',
     18
@@ -94,6 +104,7 @@ values
     'Collar Cadena Fina Dorada',
     'Collar de cadena fina con dije delicado, ideal para combinar en capas.',
     28.90,
+    null,
     'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80',
     'Collares',
     15
@@ -102,6 +113,7 @@ values
     'Set Aretes + Collar Combinado',
     'Set combinado de aretes y collar a juego, listo para regalar.',
     39.90,
+    54.90,
     'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80',
     'Sets',
     10
@@ -110,6 +122,7 @@ values
     'Diadema Trendy Escolar',
     'Diadema de moda en tonos pastel, perfecta para el colegio o el diario.',
     15.90,
+    null,
     'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=800&q=80',
     'Accesorios',
     25
@@ -118,6 +131,7 @@ values
     'Pulsera Charms Boho',
     'Pulsera ajustable con dijes boho, combina con cualquier look casual.',
     18.90,
+    24.90,
     'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80',
     'Pulseras',
     20
@@ -126,6 +140,7 @@ values
     'Aretes Argolla Dorada',
     'Argollas medianas bañadas en oro, versátiles para el día o la noche.',
     24.90,
+    null,
     'https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=800&q=80',
     'Aretes',
     16
@@ -134,6 +149,7 @@ values
     'Collar Choker Moderno',
     'Choker corto de estilo moderno, tendencia para looks de oficina y eventos.',
     26.90,
+    null,
     'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80',
     'Collares',
     12
@@ -142,6 +158,7 @@ values
     'Set Escolar Trendy',
     'Set de accesorios pensado para el colegio: pulsera, aretes y scrunchie a juego.',
     32.90,
+    39.90,
     'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80',
     'Sets',
     14

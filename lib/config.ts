@@ -1,4 +1,4 @@
-import type { ItemCarrito } from "@/lib/types";
+import type { ItemCarrito, Producto } from "@/lib/types";
 
 /**
  * Configuración central del sitio.
@@ -48,6 +48,20 @@ export function formatearPrecio(precio: number): string {
     currency: "PEN",
     minimumFractionDigits: 2,
   }).format(precio);
+}
+
+/**
+ * Calcula el % de descuento solo si `precio_original` es real y mayor
+ * al precio actual. Evita mostrar rebajas falsas cuando el campo está
+ * vacío o mal configurado.
+ */
+export function porcentajeDescuento(producto: Producto): number | null {
+  if (!producto.precio_original || producto.precio_original <= producto.precio) {
+    return null;
+  }
+  const descuento =
+    ((producto.precio_original - producto.precio) / producto.precio_original) * 100;
+  return Math.round(descuento);
 }
 
 /**

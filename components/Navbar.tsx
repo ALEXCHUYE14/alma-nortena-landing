@@ -5,23 +5,56 @@ import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Facebook,
+  Instagram,
   Menu,
   MessageCircle,
   Minus,
   Plus,
+  Search,
   ShoppingBag,
   Trash2,
+  UserRound,
   X,
 } from "lucide-react";
 import { enlacesNavegacion, formatearPrecio, siteConfig, urlWhatsApp } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { SearchOverlay } from "@/components/SearchOverlay";
+import { AccountModal } from "@/components/AccountModal";
+
+function IconoTikTok({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15 3v10.5a3.5 3.5 0 1 1-3.5-3.5c.18 0 .35.01.5.03" />
+      <path d="M15 3a5 5 0 0 0 5 5" />
+    </svg>
+  );
+}
+
+const redesSociales = [
+  { href: siteConfig.redes.instagram, etiqueta: "Instagram", Icono: Instagram },
+  { href: siteConfig.redes.facebook, etiqueta: "Facebook", Icono: Facebook },
+  { href: siteConfig.redes.tiktok, etiqueta: "TikTok", Icono: IconoTikTok },
+] as const;
 
 export function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [carritoAbierto, setCarritoAbierto] = useState(false);
   const [checkoutAbierto, setCheckoutAbierto] = useState(false);
+  const [busquedaAbierta, setBusquedaAbierta] = useState(false);
+  const [cuentaAbierta, setCuentaAbierta] = useState(false);
   const [conScroll, setConScroll] = useState(false);
   const { items, totalUnidades, totalSoles, agregarProducto, quitarProducto, vaciarCarrito } =
     useCarrito();
@@ -36,12 +69,13 @@ export function Navbar() {
 
   // Bloquear el scroll del fondo cuando un panel está abierto
   useEffect(() => {
-    const abierto = menuAbierto || carritoAbierto || checkoutAbierto;
+    const abierto =
+      menuAbierto || carritoAbierto || checkoutAbierto || busquedaAbierta || cuentaAbierta;
     document.body.style.overflow = abierto ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuAbierto, carritoAbierto, checkoutAbierto]);
+  }, [menuAbierto, carritoAbierto, checkoutAbierto, busquedaAbierta, cuentaAbierta]);
 
   // Cerrar con tecla Escape
   useEffect(() => {
@@ -50,6 +84,8 @@ export function Navbar() {
         setMenuAbierto(false);
         setCarritoAbierto(false);
         setCheckoutAbierto(false);
+        setBusquedaAbierta(false);
+        setCuentaAbierta(false);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -64,11 +100,105 @@ export function Navbar() {
         }`}
       >
         <AnnouncementBar />
+
+        {/* ============ Fila superior de escritorio: redes + logo + cuenta/búsqueda/carrito ============ */}
+        <div className="hidden border-b border-stone-900/5 lg:block">
+          <div className="mx-auto flex h-11 max-w-6xl items-center justify-between px-6">
+            <div className="flex items-center gap-3 text-stone-500">
+              {redesSociales.map(({ href, etiqueta, Icono }) => (
+                <a
+                  key={etiqueta}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={etiqueta}
+                  className="transition-colors hover:text-amber-800"
+                >
+                  <Icono size={16} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+
+            <Link
+              href="/"
+              aria-label={siteConfig.nombre}
+              className="font-[family-name:var(--font-display)] text-sm font-bold uppercase tracking-[0.3em] text-stone-900"
+            >
+              {siteConfig.nombre}
+            </Link>
+
+            <div className="flex items-center gap-4 text-stone-900">
+              <button
+                type="button"
+                onClick={() => setCuentaAbierta(true)}
+                aria-label="Mi cuenta"
+                className="transition-colors hover:text-amber-800"
+              >
+                <UserRound size={18} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setBusquedaAbierta(true)}
+                aria-label="Buscar productos"
+                className="transition-colors hover:text-amber-800"
+              >
+                <Search size={18} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setCarritoAbierto(true)}
+                aria-label={`Abrir carrito, ${totalUnidades} productos`}
+                className="relative transition-colors hover:text-amber-800"
+              >
+                <ShoppingBag size={18} aria-hidden="true" />
+                <AnimatePresence>
+                  {totalUnidades > 0 && (
+                    <motion.span
+                      key="badge-desktop"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-800 px-1 text-[10px] font-bold text-stone-50"
+                    >
+                      {totalUnidades}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* ============ Fila de navegación de escritorio ============ */}
         <nav
           aria-label="Navegación principal"
-          className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:h-20"
+          className="mx-auto hidden h-16 max-w-6xl items-center justify-center gap-8 px-6 lg:flex"
         >
-          {/* Logo */}
+          {enlacesNavegacion.map((enlace) => (
+            <a
+              key={enlace.href}
+              href={enlace.href}
+              className="text-sm font-medium text-stone-900 transition-colors duration-200 hover:text-amber-800"
+            >
+              {enlace.etiqueta}
+            </a>
+          ))}
+          <a
+            href={urlWhatsApp()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-transform duration-200 hover:scale-[1.03] hover:bg-amber-900"
+          >
+            <MessageCircle size={16} aria-hidden="true" />
+            Escríbenos
+          </a>
+        </nav>
+
+        {/* ============ Fila única de móvil ============ */}
+        <nav
+          aria-label="Navegación principal móvil"
+          className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:hidden"
+        >
           <Link href="/" aria-label={siteConfig.nombre} className="flex items-center">
             <Image
               src="/logo-mark.png"
@@ -76,37 +206,20 @@ export function Navbar() {
               width={160}
               height={129}
               priority
-              className="h-11 w-auto object-contain lg:h-14"
+              className="h-11 w-auto object-contain"
             />
           </Link>
 
-          {/* Navegación desktop */}
-          <ul className="hidden items-center gap-8 lg:flex">
-            {enlacesNavegacion.map((enlace) => (
-              <li key={enlace.href}>
-                <a
-                  href={enlace.href}
-                  className="text-sm font-medium text-stone-900 transition-colors duration-200 hover:text-amber-800"
-                >
-                  {enlace.etiqueta}
-                </a>
-              </li>
-            ))}
-            <li>
-              <a
-                href={urlWhatsApp()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-transform duration-200 hover:scale-[1.03] hover:bg-amber-900"
-              >
-                <MessageCircle size={16} aria-hidden="true" />
-                Escríbenos
-              </a>
-            </li>
-          </ul>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setBusquedaAbierta(true)}
+              aria-label="Buscar productos"
+              className="rounded-full p-2 text-stone-900 transition-colors hover:bg-amber-800/10"
+            >
+              <Search size={22} aria-hidden="true" />
+            </button>
 
-          {/* Acciones (carrito + hamburguesa) */}
-          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setCarritoAbierto(true)}
@@ -133,7 +246,7 @@ export function Navbar() {
               type="button"
               onClick={() => setMenuAbierto(true)}
               aria-label="Abrir menú"
-              className="rounded-full p-2 text-stone-900 transition-colors hover:bg-amber-800/10 lg:hidden"
+              className="rounded-full p-2 text-stone-900 transition-colors hover:bg-amber-800/10"
             >
               <Menu size={24} aria-hidden="true" />
             </button>
@@ -366,6 +479,18 @@ export function Navbar() {
             }}
           />
         )}
+      </AnimatePresence>
+
+      {/* ================= Búsqueda ================= */}
+      <AnimatePresence>
+        {busquedaAbierta && (
+          <SearchOverlay onCerrar={() => setBusquedaAbierta(false)} />
+        )}
+      </AnimatePresence>
+
+      {/* ================= Mi cuenta ================= */}
+      <AnimatePresence>
+        {cuentaAbierta && <AccountModal onCerrar={() => setCuentaAbierta(false)} />}
       </AnimatePresence>
     </>
   );

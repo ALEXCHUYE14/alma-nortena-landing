@@ -3,6 +3,10 @@ export interface Producto {
   nombre: string;
   descripcion: string;
   precio: number;
+  // Precio de referencia "antes de descuento". Solo se muestra la
+  // etiqueta de descuento si es mayor que `precio` (evita mostrar
+  // rebajas falsas cuando el campo no fue configurado).
+  precio_original: number | null;
   imagen_url: string;
   categoria: string;
   stock: number;

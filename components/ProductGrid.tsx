@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, PackageX, ShoppingBag } from "lucide-react";
 import type { Producto } from "@/lib/types";
-import { formatearPrecio } from "@/lib/config";
+import { formatearPrecio, porcentajeDescuento } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
 
 const UMBRAL_POCAS_UNIDADES = 5;
@@ -44,6 +45,7 @@ function ProductCard({ producto, indice }: { producto: Producto; indice: number 
 
   const pocasUnidades = producto.stock > 0 && producto.stock <= UMBRAL_POCAS_UNIDADES;
   const agotado = producto.stock === 0;
+  const descuento = porcentajeDescuento(producto);
 
   const manejarAgregar = () => {
     if (agotado) return;
@@ -60,74 +62,90 @@ function ProductCard({ producto, indice }: { producto: Producto; indice: number 
       transition={{ delay: (indice % 4) * 0.07, duration: 0.45 }}
       className="group flex flex-col"
     >
-      <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-stone-100">
-        <Image
-          src={producto.imagen_url}
-          alt={producto.nombre}
-          fill
-          sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-        />
+      <Link href={`/producto/${producto.id}`} className="block">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-stone-100">
+          <Image
+            src={producto.imagen_url}
+            alt={producto.nombre}
+            fill
+            sizes="(min-width: 1024px) 25vw, 50vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          />
 
-        {/* Badge dinámico */}
-        <span
-          className={`absolute left-2.5 top-2.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide shadow-sm ${
-            agotado
-              ? "bg-stone-900 text-stone-50"
+          {/* Badge de stock */}
+          <span
+            className={`absolute left-2.5 top-2.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide shadow-sm ${
+              agotado
+                ? "bg-stone-900 text-stone-50"
+                : pocasUnidades
+                  ? "bg-yellow-600 text-stone-900"
+                  : "bg-amber-800 text-stone-50"
+            }`}
+          >
+            {agotado
+              ? "Agotado"
               : pocasUnidades
-                ? "bg-yellow-600 text-stone-900"
-                : "bg-amber-800 text-stone-50"
-          }`}
-        >
-          {agotado
-            ? "Agotado"
-            : pocasUnidades
-              ? `Pocas unidades (${producto.stock})`
-              : "Envío gratis"}
-        </span>
-      </div>
+                ? `Pocas unidades (${producto.stock})`
+                : "Envío gratis"}
+          </span>
 
-      <div className="mt-3 flex flex-1 flex-col text-center">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-yellow-600">
-          {producto.categoria}
-        </p>
-        <h3 className="mt-1 font-[family-name:var(--font-display)] text-sm font-medium leading-snug text-stone-900">
-          {producto.nombre}
-        </h3>
-        <p className="mt-1 text-base font-bold text-amber-800">
-          {formatearPrecio(producto.precio)}
-        </p>
-
-        <button
-          type="button"
-          onClick={manejarAgregar}
-          disabled={agotado}
-          className={`mt-3 inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-200 ${
-            agotado
-              ? "cursor-not-allowed bg-stone-200 text-stone-400"
-              : agregado
-                ? "bg-yellow-600 text-stone-900"
-                : "bg-amber-800 text-stone-50 hover:bg-amber-900 active:scale-[0.97]"
-          }`}
-        >
-          {agotado ? (
-            <>
-              <PackageX size={14} aria-hidden="true" />
-              Sin stock
-            </>
-          ) : agregado ? (
-            <>
-              <Check size={14} aria-hidden="true" />
-              Agregado
-            </>
-          ) : (
-            <>
-              <ShoppingBag size={14} aria-hidden="true" />
-              Añadir
-            </>
+          {/* Badge de descuento (solo si hay precio_original real) */}
+          {descuento !== null && (
+            <span className="absolute right-2.5 top-2.5 rounded-full bg-blush px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-stone-900 shadow-sm">
+              -{descuento}%
+            </span>
           )}
-        </button>
-      </div>
+        </div>
+
+        <div className="mt-3 flex flex-1 flex-col text-center">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-yellow-600">
+            {producto.categoria}
+          </p>
+          <h3 className="mt-1 font-[family-name:var(--font-display)] text-sm font-medium leading-snug text-stone-900">
+            {producto.nombre}
+          </h3>
+          <div className="mt-1 flex items-center justify-center gap-2">
+            <p className="text-base font-bold text-amber-800">
+              {formatearPrecio(producto.precio)}
+            </p>
+            {descuento !== null && producto.precio_original && (
+              <p className="text-xs text-stone-400 line-through">
+                {formatearPrecio(producto.precio_original)}
+              </p>
+            )}
+          </div>
+        </div>
+      </Link>
+
+      <button
+        type="button"
+        onClick={manejarAgregar}
+        disabled={agotado}
+        className={`mt-3 inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-200 ${
+          agotado
+            ? "cursor-not-allowed bg-stone-200 text-stone-400"
+            : agregado
+              ? "bg-yellow-600 text-stone-900"
+              : "bg-amber-800 text-stone-50 hover:bg-amber-900 active:scale-[0.97]"
+        }`}
+      >
+        {agotado ? (
+          <>
+            <PackageX size={14} aria-hidden="true" />
+            Sin stock
+          </>
+        ) : agregado ? (
+          <>
+            <Check size={14} aria-hidden="true" />
+            Agregado
+          </>
+        ) : (
+          <>
+            <ShoppingBag size={14} aria-hidden="true" />
+            Añadir
+          </>
+        )}
+      </button>
     </motion.article>
   );
 }
