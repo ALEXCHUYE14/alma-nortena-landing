@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { ProductGrid, ProductGridSkeleton } from "@/components/ProductGrid";
 import { LeadForm } from "@/components/LeadForm";
+import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
 import { Filigrana } from "@/components/Filigrana";
 import { createClient } from "@/lib/supabase/server";
@@ -78,6 +79,21 @@ export default function PaginaInicio() {
               tradición.
             </p>
           </div>
+        </section>
+
+        {/* ================= Preguntas frecuentes ================= */}
+        <section id="preguntas" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <div className="mb-8 text-center">
+            <Filigrana className="mb-6" />
+            <h2 className="font-[family-name:var(--font-display)] text-3xl text-stone-900 sm:text-4xl">
+              Preguntas frecuentes
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-stone-900/70">
+              Todo lo que necesitas saber sobre pagos, envíos y cambios antes
+              de tu compra.
+            </p>
+          </div>
+          <FAQ />
         </section>
 
         {/* ================= Suscripción ================= */}

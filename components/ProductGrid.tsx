@@ -141,7 +141,11 @@ function ProductCard({ producto, indice }: { producto: Producto; indice: number 
 /* ============================================================
    Grid principal
    ============================================================ */
+const TODAS_CATEGORIAS = "Todas";
+
 export function ProductGrid({ productos }: { productos: Producto[] }) {
+  const [categoria, setCategoria] = useState<string>(TODAS_CATEGORIAS);
+
   if (productos.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-amber-800/30 bg-white/60 p-10 text-center">
@@ -156,11 +160,48 @@ export function ProductGrid({ productos }: { productos: Producto[] }) {
     );
   }
 
+  const categorias = [
+    TODAS_CATEGORIAS,
+    ...Array.from(new Set(productos.map((p) => p.categoria))),
+  ];
+  const productosFiltrados =
+    categoria === TODAS_CATEGORIAS
+      ? productos
+      : productos.filter((p) => p.categoria === categoria);
+
   return (
-    <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-      {productos.map((producto, i) => (
-        <ProductCard key={producto.id} producto={producto} indice={i} />
-      ))}
+    <div>
+      {categorias.length > 2 && (
+        <div className="mb-8 flex flex-wrap justify-center gap-2">
+          {categorias.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setCategoria(c)}
+              aria-pressed={categoria === c}
+              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+                categoria === c
+                  ? "border-amber-800 bg-amber-800 text-stone-50"
+                  : "border-amber-800/20 bg-white text-stone-900 hover:border-amber-800/50"
+              }`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {productosFiltrados.length === 0 ? (
+        <p className="py-10 text-center text-sm text-stone-500">
+          No hay piezas en esta categoría por ahora.
+        </p>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+          {productosFiltrados.map((producto, i) => (
+            <ProductCard key={producto.id} producto={producto} indice={i} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

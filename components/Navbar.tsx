@@ -14,10 +14,12 @@ import {
 } from "lucide-react";
 import { enlacesNavegacion, formatearPrecio, siteConfig, urlWhatsApp } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
+import { CheckoutModal } from "@/components/CheckoutModal";
 
 export function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [carritoAbierto, setCarritoAbierto] = useState(false);
+  const [checkoutAbierto, setCheckoutAbierto] = useState(false);
   const [conScroll, setConScroll] = useState(false);
   const { items, totalUnidades, totalSoles, agregarProducto, quitarProducto, vaciarCarrito } =
     useCarrito();
@@ -32,12 +34,12 @@ export function Navbar() {
 
   // Bloquear el scroll del fondo cuando un panel está abierto
   useEffect(() => {
-    const abierto = menuAbierto || carritoAbierto;
+    const abierto = menuAbierto || carritoAbierto || checkoutAbierto;
     document.body.style.overflow = abierto ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuAbierto, carritoAbierto]);
+  }, [menuAbierto, carritoAbierto, checkoutAbierto]);
 
   // Cerrar con tecla Escape
   useEffect(() => {
@@ -45,6 +47,7 @@ export function Navbar() {
       if (e.key === "Escape") {
         setMenuAbierto(false);
         setCarritoAbierto(false);
+        setCheckoutAbierto(false);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -312,17 +315,17 @@ export function Navbar() {
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-stone-500">
-                    Coordina tu pago por Yape, Plin o transferencia con tu asesora.
+                    Paga con Yape al instante o coordina Plin/transferencia con
+                    tu asesora.
                   </p>
-                  <a
-                    href={urlWhatsApp()}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => setCheckoutAbierto(true)}
                     className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 font-medium text-stone-50 transition-colors hover:bg-amber-900"
                   >
                     <MessageCircle size={18} aria-hidden="true" />
-                    Finalizar por WhatsApp
-                  </a>
+                    Finalizar compra
+                  </button>
                   <button
                     type="button"
                     onClick={vaciarCarrito}
@@ -335,6 +338,22 @@ export function Navbar() {
               )}
             </motion.aside>
           </>
+        )}
+      </AnimatePresence>
+
+      {/* ================= Checkout (Yape / coordinar pago) ================= */}
+      <AnimatePresence>
+        {checkoutAbierto && (
+          <CheckoutModal
+            items={items}
+            total={totalSoles}
+            onCerrar={() => setCheckoutAbierto(false)}
+            onPedidoEnviado={() => {
+              vaciarCarrito();
+              setCheckoutAbierto(false);
+              setCarritoAbierto(false);
+            }}
+          />
         )}
       </AnimatePresence>
     </>

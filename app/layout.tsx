@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/CartProvider";
+import { WhatsAppFlotante } from "@/components/WhatsAppFlotante";
 import { siteConfig } from "@/lib/config";
 import "./globals.css";
 
@@ -60,13 +63,48 @@ export const viewport: Viewport = {
   themeColor: "#92400e",
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  name: siteConfig.nombre,
+  description: siteConfig.descripcion,
+  url: siteConfig.url,
+  telephone: `+${siteConfig.whatsapp.numero}`,
+  email: siteConfig.contacto.email,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.contacto.direccion,
+    addressLocality: "Catacaos",
+    addressRegion: "Piura",
+    addressCountry: "PE",
+  },
+  openingHours: "Mo-Sa 09:00-20:00",
+  sameAs: [
+    siteConfig.redes.instagram,
+    siteConfig.redes.facebook,
+    siteConfig.redes.tiktok,
+  ],
+  priceRange: "S/",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es-PE" className={`${playfair.variable} ${inter.variable}`}>
       <body className="bg-stone-50 text-stone-900">
-        <CartProvider>{children}</CartProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+        <CartProvider>
+          {children}
+          <WhatsAppFlotante />
+        </CartProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
