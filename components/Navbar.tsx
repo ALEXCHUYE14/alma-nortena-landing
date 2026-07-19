@@ -22,7 +22,6 @@ import { useCarrito } from "@/components/CartProvider";
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { SearchOverlay } from "@/components/SearchOverlay";
-import { AccountModal } from "@/components/AccountModal";
 import { useAuth } from "@/components/AuthProvider";
 
 function IconoTikTok({ size = 16 }: { size?: number }) {
@@ -55,7 +54,6 @@ export function Navbar() {
   const [carritoAbierto, setCarritoAbierto] = useState(false);
   const [checkoutAbierto, setCheckoutAbierto] = useState(false);
   const [busquedaAbierta, setBusquedaAbierta] = useState(false);
-  const [cuentaAbierta, setCuentaAbierta] = useState(false);
   const [conScroll, setConScroll] = useState(false);
   const { items, totalUnidades, totalSoles, agregarProducto, quitarProducto, vaciarCarrito } =
     useCarrito();
@@ -76,13 +74,12 @@ export function Navbar() {
 
   // Bloquear el scroll del fondo cuando un panel está abierto
   useEffect(() => {
-    const abierto =
-      menuAbierto || carritoAbierto || checkoutAbierto || busquedaAbierta || cuentaAbierta;
+    const abierto = menuAbierto || carritoAbierto || checkoutAbierto || busquedaAbierta;
     document.body.style.overflow = abierto ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [menuAbierto, carritoAbierto, checkoutAbierto, busquedaAbierta, cuentaAbierta]);
+  }, [menuAbierto, carritoAbierto, checkoutAbierto, busquedaAbierta]);
 
   // Cerrar con tecla Escape
   useEffect(() => {
@@ -92,7 +89,6 @@ export function Navbar() {
         setCarritoAbierto(false);
         setCheckoutAbierto(false);
         setBusquedaAbierta(false);
-        setCuentaAbierta(false);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -135,9 +131,8 @@ export function Navbar() {
             </Link>
 
             <div className="flex items-center gap-4 text-stone-900">
-              <button
-                type="button"
-                onClick={() => setCuentaAbierta(true)}
+              <Link
+                href="/cuenta"
                 aria-label={usuario ? "Mi cuenta" : "Ingresar o crear cuenta"}
                 className="transition-colors hover:text-amber-800"
               >
@@ -148,7 +143,7 @@ export function Navbar() {
                 ) : (
                   <UserRound size={18} aria-hidden="true" />
                 )}
-              </button>
+              </Link>
               <button
                 type="button"
                 onClick={() => setBusquedaAbierta(true)}
@@ -224,9 +219,8 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setCuentaAbierta(true)}
+            <Link
+              href="/cuenta"
               aria-label={usuario ? "Mi cuenta" : "Ingresar o crear cuenta"}
               className="rounded-full p-2 text-stone-900 transition-colors hover:bg-amber-800/10"
             >
@@ -237,7 +231,7 @@ export function Navbar() {
               ) : (
                 <UserRound size={22} aria-hidden="true" />
               )}
-            </button>
+            </Link>
 
             <button
               type="button"
@@ -514,11 +508,6 @@ export function Navbar() {
         {busquedaAbierta && (
           <SearchOverlay onCerrar={() => setBusquedaAbierta(false)} />
         )}
-      </AnimatePresence>
-
-      {/* ================= Mi cuenta ================= */}
-      <AnimatePresence>
-        {cuentaAbierta && <AccountModal onCerrar={() => setCuentaAbierta(false)} />}
       </AnimatePresence>
     </>
   );
