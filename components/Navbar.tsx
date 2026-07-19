@@ -23,6 +23,7 @@ import { CheckoutModal } from "@/components/CheckoutModal";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { SearchOverlay } from "@/components/SearchOverlay";
 import { AccountModal } from "@/components/AccountModal";
+import { useAuth } from "@/components/AuthProvider";
 
 function IconoTikTok({ size = 16 }: { size?: number }) {
   return (
@@ -58,6 +59,12 @@ export function Navbar() {
   const [conScroll, setConScroll] = useState(false);
   const { items, totalUnidades, totalSoles, agregarProducto, quitarProducto, vaciarCarrito } =
     useCarrito();
+  const { usuario } = useAuth();
+  const inicialUsuario =
+    ((usuario?.user_metadata?.nombre as string) || usuario?.email || "")
+      .trim()
+      .slice(0, 1)
+      .toUpperCase();
 
   // Sombra sutil al hacer scroll
   useEffect(() => {
@@ -131,10 +138,16 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setCuentaAbierta(true)}
-                aria-label="Mi cuenta"
+                aria-label={usuario ? "Mi cuenta" : "Ingresar o crear cuenta"}
                 className="transition-colors hover:text-amber-800"
               >
-                <UserRound size={18} aria-hidden="true" />
+                {usuario ? (
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-800 text-[11px] font-bold text-stone-50">
+                    {inicialUsuario}
+                  </span>
+                ) : (
+                  <UserRound size={18} aria-hidden="true" />
+                )}
               </button>
               <button
                 type="button"
@@ -211,6 +224,21 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setCuentaAbierta(true)}
+              aria-label={usuario ? "Mi cuenta" : "Ingresar o crear cuenta"}
+              className="rounded-full p-2 text-stone-900 transition-colors hover:bg-amber-800/10"
+            >
+              {usuario ? (
+                <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-amber-800 text-[11px] font-bold text-stone-50">
+                  {inicialUsuario}
+                </span>
+              ) : (
+                <UserRound size={22} aria-hidden="true" />
+              )}
+            </button>
+
             <button
               type="button"
               onClick={() => setBusquedaAbierta(true)}

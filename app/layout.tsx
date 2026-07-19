@@ -3,6 +3,7 @@ import { DM_Sans, Dancing_Script } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/CartProvider";
+import { AuthProvider } from "@/components/AuthProvider";
 import { WhatsAppFlotante } from "@/components/WhatsAppFlotante";
 import { siteConfig } from "@/lib/config";
 import "./globals.css";
@@ -98,10 +99,12 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
-        <CartProvider>
-          {children}
-          <WhatsAppFlotante />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            {children}
+            <WhatsAppFlotante />
+          </CartProvider>
+        </AuthProvider>
         <Analytics />
         <SpeedInsights />
       </body>

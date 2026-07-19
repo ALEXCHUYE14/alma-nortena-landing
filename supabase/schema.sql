@@ -89,20 +89,32 @@ create policy "insercion_publica_leads"
 -- ============================================================
 -- 4. DATOS DE EJEMPLO (seed)
 -- ============================================================
+-- Catálogo acotado a 4 categorías (a pedido del negocio): Aretes,
+-- Collares, Pulseras y Anillos. Cada imagen fue verificada uno a uno
+-- para que coincida realmente con el producto (no son genéricas).
 insert into public.productos (nombre, descripcion, precio, precio_original, imagen_url, categoria, stock)
 values
   (
-    'Aretes Luna Minimalista',
-    'Aretes pequeños en baño dorado, diseño minimalista para uso diario.',
-    22.90,
-    32.90,
-    'https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=800&q=80',
+    'Aretes Statement Piedra Azul',
+    'Aretes largos con piedra azul y cristales, para looks de fiesta o evento.',
+    24.90,
+    34.90,
+    'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80',
     'Aretes',
     18
   ),
   (
-    'Collar Cadena Fina Dorada',
-    'Collar de cadena fina con dije delicado, ideal para combinar en capas.',
+    'Aretes Argolla Dorada',
+    'Argollas medianas bañadas en oro, versátiles para el día o la noche.',
+    19.90,
+    null,
+    'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800&q=80',
+    'Aretes',
+    16
+  ),
+  (
+    'Collar Luna y Cristal',
+    'Collar doble capa con dije de luna y cristal, ideal para combinar en capas.',
     28.90,
     null,
     'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80',
@@ -110,26 +122,17 @@ values
     15
   ),
   (
-    'Set Aretes + Collar Combinado',
-    'Set combinado de aretes y collar a juego, listo para regalar.',
-    39.90,
-    54.90,
-    'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80',
-    'Sets',
-    10
+    'Collar Dije Martillado',
+    'Collar de cadena fina con dije martillado en acabado dorado.',
+    26.90,
+    36.90,
+    'https://images.unsplash.com/photo-1605201206717-cb9eca0d2eb2?w=800&q=80',
+    'Collares',
+    12
   ),
   (
-    'Diadema Trendy Escolar',
-    'Diadema de moda en tonos pastel, perfecta para el colegio o el diario.',
-    15.90,
-    null,
-    'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=800&q=80',
-    'Accesorios',
-    25
-  ),
-  (
-    'Pulsera Charms Boho',
-    'Pulsera ajustable con dijes boho, combina con cualquier look casual.',
+    'Pulsera Infinito Dorada',
+    'Pulsera rígida con diseño de infinitos y baño dorado brillante.',
     18.90,
     24.90,
     'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80',
@@ -137,30 +140,30 @@ values
     20
   ),
   (
-    'Aretes Argolla Dorada',
-    'Argollas medianas bañadas en oro, versátiles para el día o la noche.',
-    24.90,
+    'Pulsera Cadena Gruesa',
+    'Pulsera de cadena gruesa estilo statement, tendencia de temporada.',
+    21.90,
     null,
-    'https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=800&q=80',
-    'Aretes',
-    16
-  ),
-  (
-    'Collar Choker Moderno',
-    'Choker corto de estilo moderno, tendencia para looks de oficina y eventos.',
-    26.90,
-    null,
-    'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80',
-    'Collares',
-    12
-  ),
-  (
-    'Set Escolar Trendy',
-    'Set de accesorios pensado para el colegio: pulsera, aretes y scrunchie a juego.',
-    32.90,
-    39.90,
-    'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80',
-    'Sets',
+    'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=800&q=80',
+    'Pulseras',
     14
+  ),
+  (
+    'Anillo Halo Cristal',
+    'Anillo ajustable con cristal central rodeado de circonias, acabado bicolor.',
+    17.90,
+    null,
+    'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80',
+    'Anillos',
+    22
+  ),
+  (
+    'Anillo Serpiente Dorado',
+    'Anillo texturizado diseño serpiente, baño dorado, ajustable.',
+    19.90,
+    27.90,
+    'https://images.unsplash.com/photo-1677466891347-2ff8dad2f993?w=800&q=80',
+    'Anillos',
+    11
   )
 on conflict do nothing;
