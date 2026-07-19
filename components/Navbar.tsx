@@ -134,14 +134,14 @@ export function Navbar() {
               <Link
                 href="/"
                 aria-label={siteConfig.nombre}
-                className="transition-opacity hover:opacity-80"
+                className="shrink-0 transition-opacity hover:opacity-80"
               >
                 <Image
                   src="/logo-mark.png"
                   alt={siteConfig.nombre}
-                  width={80}
+                  width={64}
                   height={64}
-                  className="h-7 w-auto object-contain"
+                  className="h-8 w-8 rounded-full border border-amber-800/15 bg-stone-50 object-contain p-1"
                 />
               </Link>
               <Link

@@ -23,9 +23,10 @@ export const siteConfig = {
     horario: "Lun – Sáb · 9:00 a.m. – 8:00 p.m.",
   },
   redes: {
-    instagram: "https://instagram.com/grcbisuteria",
-    facebook: "https://facebook.com/grcbisuteria",
-    tiktok: "https://tiktok.com/@grcbisuteria",
+    instagram:
+      "https://www.instagram.com/grcbisuteria?utm_source=qr&igsh=ZTFxdm96bjVsbGh5",
+    facebook: "https://www.facebook.com/share/199ayNwNCM/",
+    tiktok: "https://www.tiktok.com/@grc7118?_r=1&_t=ZS-98AkEqm8m2P",
   },
 } as const;
 

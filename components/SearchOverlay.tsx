@@ -13,6 +13,11 @@ interface SearchOverlayProps {
   onCerrar: () => void;
 }
 
+// Categorías reales del catálogo (las mismas que usa el filtro de
+// <ProductGrid />), no un listado genérico: evita ofrecer accesos
+// directos a categorías que GRC no vende.
+const BUSQUEDAS_POPULARES = ["Aretes", "Collares", "Pulseras", "Anillos"] as const;
+
 export function SearchOverlay({ onCerrar }: SearchOverlayProps) {
   const [consulta, setConsulta] = useState("");
   const [resultados, setResultados] = useState<Producto[]>([]);
@@ -38,7 +43,7 @@ export function SearchOverlay({ onCerrar }: SearchOverlayProps) {
       const { data, error } = await supabase
         .from("productos")
         .select("*")
-        .ilike("nombre", `%${termino}%`)
+        .or(`nombre.ilike.%${termino}%,categoria.ilike.%${termino}%`)
         .limit(8);
 
       if (!error) {
@@ -82,7 +87,7 @@ export function SearchOverlay({ onCerrar }: SearchOverlayProps) {
               type="search"
               value={consulta}
               onChange={(e) => setConsulta(e.target.value)}
-              placeholder="Busca aretes, collares, pulseras…"
+              placeholder="Buscar en la tienda"
               className="w-full border-b border-stone-200 bg-transparent py-2 text-base text-stone-900 outline-none placeholder:text-stone-400 focus:border-amber-800"
             />
             {buscando && (
@@ -99,7 +104,26 @@ export function SearchOverlay({ onCerrar }: SearchOverlayProps) {
           </div>
 
           <div className="mt-6">
-            {resultados.length > 0 ? (
+            {consulta.trim().length < 2 ? (
+              <div>
+                <h2 className="border-b border-stone-200 pb-3 text-sm font-semibold uppercase tracking-wide text-stone-900">
+                  Búsquedas populares
+                </h2>
+                <ul>
+                  {BUSQUEDAS_POPULARES.map((categoria) => (
+                    <li key={categoria}>
+                      <button
+                        type="button"
+                        onClick={() => setConsulta(categoria)}
+                        className="block w-full py-2.5 text-left text-sm text-stone-600 transition-colors hover:text-amber-800"
+                      >
+                        {categoria}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : resultados.length > 0 ? (
               <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {resultados.map((producto) => (
                   <li key={producto.id}>
@@ -128,7 +152,6 @@ export function SearchOverlay({ onCerrar }: SearchOverlayProps) {
                 ))}
               </ul>
             ) : (
-              consulta.trim().length >= 2 &&
               buscoAlgunaVez &&
               !buscando && (
                 <p className="py-6 text-center text-sm text-stone-500">
