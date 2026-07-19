@@ -10,7 +10,7 @@ export const siteConfig = {
   descripcion:
     "Bisutería moderna y accesible: aretes, collares, pulseras y sets combinados pensados para la mujer real. Pedidos por WhatsApp con envío en Piura.",
   // TODO: reemplazar por el dominio real cuando lo compren (ej. grcbisuteria.pe)
-  url: "https://almanortena.vercel.app",
+  url: "https://grcbisuteria.vercel.app",
   whatsapp: {
     numero: "51923872357", // Formato internacional sin "+"
     mensaje:

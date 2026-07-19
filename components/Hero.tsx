@@ -101,8 +101,8 @@ export function Hero() {
             className="absolute left-0 top-0 h-[72%] w-[68%] overflow-hidden rounded-[2rem] rounded-tr-[6rem] border-4 border-white shadow-xl shadow-amber-800/15"
           >
             <Image
-              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&q=80"
-              alt="Mujer con vestido elegante de tonos cálidos"
+              src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80"
+              alt="Collares de GRC Bisutería con dije de luna y cristal"
               fill
               priority
               sizes="(min-width: 1024px) 380px, 68vw"

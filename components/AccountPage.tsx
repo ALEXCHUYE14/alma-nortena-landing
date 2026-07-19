@@ -3,15 +3,7 @@
 import { useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  AlertCircle,
-  CheckCircle2,
-  Loader2,
-  Lock,
-  LogOut,
-  Mail,
-  User as UserIcon,
-} from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { siteConfig } from "@/lib/config";
 import { useAuth } from "@/components/AuthProvider";
@@ -22,17 +14,21 @@ function iniciales(texto: string): string {
   return texto.trim().slice(0, 1).toUpperCase() || "?";
 }
 
+const CLASE_INPUT =
+  "w-full rounded-xl border border-stone-300 bg-stone-50 px-4 py-3.5 text-stone-900 placeholder:text-stone-400 focus:border-amber-800 focus:bg-white focus:outline-none disabled:opacity-60";
+
 /**
- * Página completa de cuenta (/cuenta): reemplaza el modal anterior por
- * una pantalla a página completa (con Navbar y Footer del sitio), en
- * la línea visual de referencia que pidió el negocio. La lógica de
+ * Página completa de cuenta (/cuenta): pantalla a página completa (con
+ * Navbar y Footer del sitio) inspirada en la referencia visual que pidió
+ * el negocio — sin tarjeta ni íconos dentro de los campos, con el botón
+ * principal y "¿Olvidó su contraseña?" en la misma fila. La lógica de
  * autenticación con Supabase es la misma que ya existía.
  */
 export function AccountPage() {
   const { usuario, cargando: cargandoSesion, cerrarSesion } = useAuth();
 
   return (
-    <div className="mx-auto max-w-md px-4 pb-20 sm:px-6">
+    <div className="mx-auto max-w-xl px-4 pb-20 sm:px-6">
       {cargandoSesion ? (
         <div className="flex items-center justify-center py-16">
           <Loader2 size={24} className="animate-spin text-amber-800" aria-hidden="true" />
@@ -62,11 +58,11 @@ function PanelSesionActiva({
   const [cerrando, setCerrando] = useState(false);
 
   return (
-    <div className="rounded-2xl border border-amber-800/15 bg-white p-8 text-center shadow-sm">
+    <div className="mx-auto max-w-md text-center">
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-800 text-xl font-bold text-stone-50">
         {iniciales(nombre || email)}
       </div>
-      <h1 className="mt-4 font-[family-name:var(--font-display)] text-xl font-bold text-stone-900">
+      <h1 className="mt-4 font-[family-name:var(--font-display)] text-2xl font-bold text-stone-900">
         {nombre ? `Hola, ${nombre}` : "Tu cuenta"}
       </h1>
       <p className="mt-1 text-sm text-stone-500">{email}</p>
@@ -79,7 +75,7 @@ function PanelSesionActiva({
           await onCerrarSesion();
           setCerrando(false);
         }}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-stone-300 py-3 text-xs font-bold uppercase tracking-wider text-stone-700 transition-colors hover:bg-stone-50 disabled:opacity-60"
+        className="mx-auto mt-8 flex items-center justify-center gap-2 rounded-full border border-stone-300 px-8 py-3 text-xs font-bold uppercase tracking-wider text-stone-700 transition-colors hover:bg-stone-50 disabled:opacity-60"
       >
         {cerrando ? (
           <Loader2 size={16} className="animate-spin" aria-hidden="true" />
@@ -93,7 +89,7 @@ function PanelSesionActiva({
         href="/"
         className="mt-6 inline-block text-sm font-medium text-amber-800 underline underline-offset-4"
       >
-        ← Volver a la tienda
+        Volver a la tienda
       </Link>
     </div>
   );
@@ -213,33 +209,26 @@ function FormularioAuth() {
 
   if (modo === "recuperar") {
     return (
-      <div className="rounded-2xl border border-amber-800/15 bg-white p-6 shadow-sm sm:p-8">
-        <h1 className="text-center font-[family-name:var(--font-display)] text-2xl font-bold text-stone-900">
+      <div>
+        <h1 className="text-center font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
           Recuperar contraseña
         </h1>
-        <p className="mt-2 text-center text-sm text-stone-500">
+        <p className="mx-auto mt-3 max-w-md text-center text-sm text-stone-500">
           Escribe tu correo y te enviaremos instrucciones para restablecer tu
           contraseña.
         </p>
 
-        <div className="mt-6 space-y-3">
-          <div className="relative">
-            <Mail
-              size={17}
-              aria-hidden="true"
-              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-800/60"
-            />
-            <input
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              value={email}
-              disabled={cargando}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-              placeholder="tu@correo.com"
-              className="w-full rounded-xl border border-stone-300 bg-stone-50 py-3 pl-10 pr-4 text-stone-900 placeholder:text-stone-400 focus:border-amber-800 focus:bg-white disabled:opacity-60"
-            />
-          </div>
+        <div className="mx-auto mt-8 max-w-md space-y-4">
+          <input
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            value={email}
+            disabled={cargando}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            placeholder="Correo electrónico"
+            className={CLASE_INPUT}
+          />
 
           {error && (
             <p role="alert" className="flex items-start gap-2 text-sm text-red-700">
@@ -255,37 +244,48 @@ function FormularioAuth() {
             </p>
           )}
 
-          <button
-            type="button"
-            onClick={manejarRecuperar}
-            disabled={cargando}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900 disabled:opacity-70"
-          >
-            {cargando ? (
-              <Loader2 size={16} className="animate-spin" aria-hidden="true" />
-            ) : (
-              "Enviar instrucciones"
-            )}
-          </button>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
+            <button
+              type="button"
+              onClick={manejarRecuperar}
+              disabled={cargando}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-800 px-10 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900 disabled:opacity-70"
+            >
+              {cargando ? (
+                <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+              ) : (
+                "Enviar instrucciones"
+              )}
+            </button>
 
-          <button
-            type="button"
-            onClick={() => cambiarModo("ingresar")}
-            className="block w-full text-center text-sm font-medium text-amber-800 underline underline-offset-4"
-          >
-            Volver a iniciar sesión
-          </button>
+            <button
+              type="button"
+              onClick={() => cambiarModo("ingresar")}
+              className="text-xs font-medium text-amber-800 underline underline-offset-4"
+            >
+              Volver a iniciar sesión
+            </button>
+          </div>
+
+          <div className="pt-2">
+            <Link
+              href="/"
+              className="text-sm font-medium text-amber-800 underline underline-offset-4"
+            >
+              Volver a la tienda
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-amber-800/15 bg-white p-6 shadow-sm sm:p-8">
-      <h1 className="text-center font-[family-name:var(--font-display)] text-2xl font-bold text-stone-900 sm:text-3xl">
+    <div>
+      <h1 className="text-center font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
         {modo === "ingresar" ? "Iniciar sesión" : "Crea tu cuenta"}
       </h1>
-      <p className="mt-2 text-center text-sm text-stone-500">
+      <p className="mx-auto mt-3 max-w-md text-center text-sm text-stone-500">
         {modo === "ingresar" ? (
           <>
             ¿Todavía no tienes una cuenta?{" "}
@@ -296,6 +296,7 @@ function FormularioAuth() {
             >
               Regístrate aquí
             </button>
+            .
           </>
         ) : (
           <>
@@ -307,75 +308,43 @@ function FormularioAuth() {
             >
               Inicia sesión aquí
             </button>
+            .
           </>
         )}
       </p>
 
-      <div className="mt-6 space-y-3">
+      <div className="mx-auto mt-8 max-w-md space-y-4">
         {modo === "registrarse" && (
-          <div className="relative">
-            <UserIcon
-              size={17}
-              aria-hidden="true"
-              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-800/60"
-            />
-            <input
-              type="text"
-              value={nombre}
-              disabled={cargando}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setNombre(e.target.value)}
-              placeholder="Tu nombre"
-              className="w-full rounded-xl border border-stone-300 bg-stone-50 py-3 pl-10 pr-4 text-stone-900 placeholder:text-stone-400 focus:border-amber-800 focus:bg-white disabled:opacity-60"
-            />
-          </div>
+          <input
+            type="text"
+            value={nombre}
+            disabled={cargando}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setNombre(e.target.value)}
+            placeholder="Tu nombre"
+            className={CLASE_INPUT}
+          />
         )}
 
-        <div className="relative">
-          <Mail
-            size={17}
-            aria-hidden="true"
-            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-800/60"
-          />
-          <input
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            value={email}
-            disabled={cargando}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-            placeholder="tu@correo.com"
-            className="w-full rounded-xl border border-stone-300 bg-stone-50 py-3 pl-10 pr-4 text-stone-900 placeholder:text-stone-400 focus:border-amber-800 focus:bg-white disabled:opacity-60"
-          />
-        </div>
+        <input
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          value={email}
+          disabled={cargando}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+          placeholder="Correo electrónico"
+          className={CLASE_INPUT}
+        />
 
-        <div className="relative">
-          <Lock
-            size={17}
-            aria-hidden="true"
-            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-800/60"
-          />
-          <input
-            type="password"
-            autoComplete={modo === "ingresar" ? "current-password" : "new-password"}
-            value={password}
-            disabled={cargando}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-            placeholder="Contraseña"
-            className="w-full rounded-xl border border-stone-300 bg-stone-50 py-3 pl-10 pr-4 text-stone-900 placeholder:text-stone-400 focus:border-amber-800 focus:bg-white disabled:opacity-60"
-          />
-        </div>
-
-        {modo === "ingresar" && (
-          <div className="text-right">
-            <button
-              type="button"
-              onClick={() => cambiarModo("recuperar")}
-              className="text-xs font-medium text-amber-800 underline underline-offset-4"
-            >
-              ¿Olvidaste tu contraseña?
-            </button>
-          </div>
-        )}
+        <input
+          type="password"
+          autoComplete={modo === "ingresar" ? "current-password" : "new-password"}
+          value={password}
+          disabled={cargando}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+          placeholder="Contraseña"
+          className={CLASE_INPUT}
+        />
 
         {error && (
           <p role="alert" className="flex items-start gap-2 text-sm text-red-700">
@@ -391,27 +360,46 @@ function FormularioAuth() {
           </p>
         )}
 
-        <button
-          type="button"
-          onClick={manejarEnviar}
-          disabled={cargando}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900 disabled:opacity-70"
-        >
-          {cargando ? (
-            <Loader2 size={16} className="animate-spin" aria-hidden="true" />
-          ) : modo === "ingresar" ? (
-            "Iniciar sesión"
-          ) : (
-            "Crear cuenta"
-          )}
-        </button>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
+          <button
+            type="button"
+            onClick={manejarEnviar}
+            disabled={cargando}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-800 px-10 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900 disabled:opacity-70"
+          >
+            {cargando ? (
+              <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+            ) : modo === "ingresar" ? (
+              "Iniciar sesión"
+            ) : (
+              "Crear cuenta"
+            )}
+          </button>
 
-        <Link
-          href="/"
-          className="block text-center text-sm font-medium text-amber-800 underline underline-offset-4"
-        >
-          ← Volver a la tienda
-        </Link>
+          {modo === "ingresar" && (
+            <button
+              type="button"
+              onClick={() => cambiarModo("recuperar")}
+              className="text-xs font-medium text-amber-800 underline underline-offset-4"
+            >
+              ¿Olvidó su contraseña?
+            </button>
+          )}
+        </div>
+
+        <div className="pt-2">
+          <Link
+            href="/"
+            className="text-sm font-medium text-amber-800 underline underline-offset-4"
+          >
+            Volver a la tienda
+          </Link>
+        </div>
+
+        <p className="pt-4 text-xs leading-relaxed text-stone-400">
+          Tu información está protegida y solo la usamos para gestionar tu
+          cuenta y tus pedidos en {siteConfig.nombre}.
+        </p>
       </div>
     </div>
   );
