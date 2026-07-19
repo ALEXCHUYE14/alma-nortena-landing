@@ -132,6 +132,19 @@ export function Navbar() {
 
             <div className="flex items-center gap-4 text-stone-900">
               <Link
+                href="/"
+                aria-label={siteConfig.nombre}
+                className="transition-opacity hover:opacity-80"
+              >
+                <Image
+                  src="/logo-mark.png"
+                  alt={siteConfig.nombre}
+                  width={80}
+                  height={64}
+                  className="h-7 w-auto object-contain"
+                />
+              </Link>
+              <Link
                 href="/cuenta"
                 aria-label={usuario ? "Mi cuenta" : "Ingresar o crear cuenta"}
                 className="transition-colors hover:text-amber-800"
