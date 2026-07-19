@@ -360,6 +360,21 @@ export function Navbar() {
               <p className="mt-4 text-center text-sm text-stone-400">
                 {siteConfig.contacto.horario}
               </p>
+
+              <div className="mt-5 flex items-center justify-center gap-2 text-stone-50">
+                {redesSociales.map(({ href, etiqueta, Icono }) => (
+                  <a
+                    key={etiqueta}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={etiqueta}
+                    className="rounded-full p-2.5 transition-colors hover:bg-stone-50/10 hover:text-yellow-600"
+                  >
+                    <Icono size={20} aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
         )}
