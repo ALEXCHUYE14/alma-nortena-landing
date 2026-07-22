@@ -18,6 +18,16 @@ export interface ItemCarrito {
   cantidad: number;
 }
 
+export interface Resena {
+  id: string;
+  producto_id: string;
+  nombre: string;
+  calificacion: number;
+  comentario: string;
+  aprobado: boolean;
+  created_at: string;
+}
+
 export type EstadoFormulario = "idle" | "submitting" | "success" | "error";
 
 export const DISTRITOS = [

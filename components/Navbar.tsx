@@ -6,6 +6,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Facebook,
+  Heart,
   Instagram,
   Menu,
   MessageCircle,
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 import { enlacesNavegacion, formatearPrecio, siteConfig, urlWhatsApp } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
+import { useFavoritos } from "@/components/FavoritesProvider";
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { SearchOverlay } from "@/components/SearchOverlay";
@@ -57,6 +59,7 @@ export function Navbar() {
   const [conScroll, setConScroll] = useState(false);
   const { items, totalUnidades, totalSoles, agregarProducto, quitarProducto, vaciarCarrito } =
     useCarrito();
+  const { totalFavoritos } = useFavoritos();
   const { usuario } = useAuth();
   const inicialUsuario =
     ((usuario?.user_metadata?.nombre as string) || usuario?.email || "")
@@ -165,6 +168,26 @@ export function Navbar() {
               >
                 <Search size={18} aria-hidden="true" />
               </button>
+              <Link
+                href="/favoritos"
+                aria-label={`Ver favoritos, ${totalFavoritos} productos`}
+                className="relative transition-colors hover:text-amber-800"
+              >
+                <Heart size={18} aria-hidden="true" />
+                <AnimatePresence>
+                  {totalFavoritos > 0 && (
+                    <motion.span
+                      key="badge-favoritos-desktop"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-800 px-1 text-[10px] font-bold text-stone-50"
+                    >
+                      {totalFavoritos}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
               <button
                 type="button"
                 onClick={() => setCarritoAbierto(true)}
@@ -254,6 +277,27 @@ export function Navbar() {
             >
               <Search size={22} aria-hidden="true" />
             </button>
+
+            <Link
+              href="/favoritos"
+              aria-label={`Ver favoritos, ${totalFavoritos} productos`}
+              className="relative rounded-full p-2 text-stone-900 transition-colors hover:bg-amber-800/10"
+            >
+              <Heart size={22} aria-hidden="true" />
+              <AnimatePresence>
+                {totalFavoritos > 0 && (
+                  <motion.span
+                    key="badge-favoritos"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-amber-800 px-1 text-[11px] font-bold text-stone-50"
+                  >
+                    {totalFavoritos}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
 
             <button
               type="button"

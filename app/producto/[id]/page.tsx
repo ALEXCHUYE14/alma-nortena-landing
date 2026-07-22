@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProductoDetalleAcciones } from "@/components/ProductoDetalleAcciones";
+import { ProductReviews } from "@/components/ProductReviews";
 import { createClient } from "@/lib/supabase/server";
 import { formatearPrecio, porcentajeDescuento, siteConfig } from "@/lib/config";
 import type { Producto } from "@/lib/types";
@@ -137,6 +138,8 @@ export default async function PaginaProducto({ params }: PaginaProductoProps) {
             </Link>
           </div>
         </div>
+
+        <ProductReviews productoId={producto.id} />
       </main>
 
       <Footer />

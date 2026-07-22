@@ -1,4 +1,4 @@
-import type { ItemCarrito, Producto } from "@/lib/types";
+import type { ItemCarrito, Producto, Resena } from "@/lib/types";
 
 /**
  * Configuración central del sitio.
@@ -88,4 +88,30 @@ export function urlWhatsAppPedido(
     `Quedo atenta a la confirmación. ¡Gracias!`;
 
   return `https://wa.me/${siteConfig.whatsapp.numero}?text=${encodeURIComponent(mensaje)}`;
+}
+
+/**
+ * Arma el mensaje de WhatsApp para consultar disponibilidad de los
+ * productos guardados en favoritos (no es un pedido confirmado).
+ */
+export function urlWhatsAppFavoritos(productos: Producto[]): string {
+  const detalle = productos
+    .map(({ nombre, precio }) => `• ${nombre} — ${formatearPrecio(precio)}`)
+    .join("\n");
+
+  const mensaje =
+    `Hola 👋 Me interesan estas piezas de GRC Bisutería:\n\n${detalle}\n\n` +
+    `¿Podrían confirmarme disponibilidad? ¡Gracias!`;
+
+  return `https://wa.me/${siteConfig.whatsapp.numero}?text=${encodeURIComponent(mensaje)}`;
+}
+
+/**
+ * Promedio de calificación (1-5) redondeado a un decimal, o null si
+ * el producto todavía no tiene reseñas aprobadas.
+ */
+export function promedioCalificacion(resenas: Resena[]): number | null {
+  if (resenas.length === 0) return null;
+  const suma = resenas.reduce((acc, r) => acc + r.calificacion, 0);
+  return Math.round((suma / resenas.length) * 10) / 10;
 }
