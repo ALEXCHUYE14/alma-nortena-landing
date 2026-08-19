@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle } from "lucide-react";
 import { urlWhatsApp } from "@/lib/config";
+import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 
 export function WhatsAppFlotante() {
   return (
@@ -18,7 +18,7 @@ export function WhatsAppFlotante() {
       whileTap={{ scale: 0.95 }}
       className="fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20"
     >
-      <MessageCircle size={28} aria-hidden="true" />
+      <IconoWhatsApp size={28} />
       <span className="sr-only">Escríbenos por WhatsApp</span>
     </motion.a>
   );

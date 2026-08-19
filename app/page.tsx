@@ -1,6 +1,9 @@
 import { Suspense } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { TrustBar } from "@/components/TrustBar";
+import { ComoComprar } from "@/components/ComoComprar";
+import { Testimonials } from "@/components/Testimonials";
 import { ProductGrid, ProductGridSkeleton } from "@/components/ProductGrid";
 import { LeadForm } from "@/components/LeadForm";
 import { FAQ } from "@/components/FAQ";
@@ -42,6 +45,7 @@ export default function PaginaInicio() {
 
       <main>
         <Hero />
+        <TrustBar />
 
         {/* ================= Colección ================= */}
         <section id="coleccion" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
@@ -61,6 +65,21 @@ export default function PaginaInicio() {
           </Suspense>
         </section>
 
+        {/* ================= Cómo comprar ================= */}
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <div className="mb-12 text-center">
+            <Filigrana className="mb-6" />
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
+              Cómo comprar
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-stone-900/70">
+              Sin registros ni complicaciones: todo tu pedido, acompañado por
+              una asesora real.
+            </p>
+          </div>
+          <ComoComprar />
+        </section>
+
         {/* ================= Historia ================= */}
         <section id="nosotras" className="textura-toquilla py-16 lg:py-24">
           <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
@@ -78,6 +97,11 @@ export default function PaginaInicio() {
             </p>
           </div>
         </section>
+
+        {/* ================= Testimonios (solo si hay reseñas reales) ================= */}
+        <Suspense fallback={null}>
+          <Testimonials />
+        </Suspense>
 
         {/* ================= Preguntas frecuentes ================= */}
         <section id="preguntas" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">

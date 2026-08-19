@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, MessageCircle, ShoppingBag, Trash2 } from "lucide-react";
+import { Heart, ShoppingBag, Trash2 } from "lucide-react";
 import { formatearPrecio, urlWhatsAppFavoritos } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
 import { useFavoritos } from "@/components/FavoritesProvider";
+import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 
 export function FavoritesPage() {
   const { favoritos, quitarFavorito } = useFavoritos();
@@ -44,7 +45,7 @@ export function FavoritesPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900"
         >
-          <MessageCircle size={16} aria-hidden="true" />
+          <IconoWhatsApp size={16} />
           Consultar todos por WhatsApp
         </a>
       </div>

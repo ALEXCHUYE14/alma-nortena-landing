@@ -1,6 +1,8 @@
 import Image from "next/image";
-import { Clock, Mail, MapPin, MessageCircle } from "lucide-react";
+import Link from "next/link";
+import { Clock, Mail, MapPin } from "lucide-react";
 import { Filigrana } from "@/components/Filigrana";
+import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 import { enlacesNavegacion, siteConfig, urlWhatsApp } from "@/lib/config";
 
 const metodosPago = ["Yape", "Plin", "Transferencia BCP", "Transferencia Interbank"];
@@ -9,7 +11,7 @@ const politicas = [
   { href: "#", etiqueta: "Política de privacidad" },
   { href: "#", etiqueta: "Cambios y devoluciones" },
   { href: "#", etiqueta: "Términos y condiciones" },
-  { href: "#", etiqueta: "Libro de reclamaciones" },
+  { href: "/libro-de-reclamaciones", etiqueta: "Libro de reclamaciones" },
 ];
 
 export function Footer() {
@@ -60,7 +62,7 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <MessageCircle size={16} className="mt-0.5 shrink-0 text-yellow-600" aria-hidden="true" />
+                <IconoWhatsApp size={16} className="mt-0.5 shrink-0 text-yellow-600" />
                 <a
                   href={urlWhatsApp()}
                   target="_blank"
@@ -86,13 +88,21 @@ export function Footer() {
                   </a>
                 </li>
               ))}
-              {politicas.map((p) => (
-                <li key={p.etiqueta}>
-                  <a href={p.href} className="transition-colors hover:text-stone-50">
-                    {p.etiqueta}
-                  </a>
-                </li>
-              ))}
+              {politicas.map((p) =>
+                p.href.startsWith("/") ? (
+                  <li key={p.etiqueta}>
+                    <Link href={p.href} className="transition-colors hover:text-stone-50">
+                      {p.etiqueta}
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={p.etiqueta}>
+                    <a href={p.href} className="transition-colors hover:text-stone-50">
+                      {p.etiqueta}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
 

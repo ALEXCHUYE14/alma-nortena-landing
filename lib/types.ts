@@ -28,6 +28,14 @@ export interface Resena {
   created_at: string;
 }
 
+export type TipoDocumento = "DNI" | "Carné de Extranjería" | "Pasaporte";
+
+export const TIPOS_DOCUMENTO: TipoDocumento[] = [
+  "DNI",
+  "Carné de Extranjería",
+  "Pasaporte",
+];
+
 export type EstadoFormulario = "idle" | "submitting" | "success" | "error";
 
 export const DISTRITOS = [

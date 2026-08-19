@@ -6,12 +6,12 @@ import { motion } from "framer-motion";
 import {
   Banknote,
   CheckCircle2,
-  MessageCircle,
   QrCode,
   X,
 } from "lucide-react";
 import type { ItemCarrito } from "@/lib/types";
 import { formatearPrecio, urlWhatsAppPedido } from "@/lib/config";
+import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 
 type MetodoPago = "yape" | "coordinar";
 
@@ -166,7 +166,7 @@ export function CheckoutModal({
               onClick={() => confirmarPedido("Coordinar pago")}
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-amber-800 py-3.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900"
             >
-              <MessageCircle size={18} aria-hidden="true" />
+              <IconoWhatsApp size={18} />
               Coordinar pago por WhatsApp
             </button>
           </div>

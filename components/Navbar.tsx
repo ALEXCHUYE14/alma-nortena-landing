@@ -21,6 +21,7 @@ import {
 import { enlacesNavegacion, formatearPrecio, siteConfig, urlWhatsApp } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
 import { useFavoritos } from "@/components/FavoritesProvider";
+import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { SearchOverlay } from "@/components/SearchOverlay";
@@ -233,7 +234,7 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-transform duration-200 hover:scale-[1.03] hover:bg-amber-900"
           >
-            <MessageCircle size={16} aria-hidden="true" />
+            <IconoWhatsApp size={16} />
             Escríbenos
           </a>
         </nav>
@@ -398,7 +399,7 @@ export function Navbar() {
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-3 rounded-full bg-yellow-600 py-4 text-xs font-bold uppercase tracking-wider text-stone-900 transition-transform active:scale-[0.98]"
               >
-                <MessageCircle size={20} aria-hidden="true" />
+                <IconoWhatsApp size={20} />
                 Hablar con una asesora
               </a>
               <p className="mt-4 text-center text-sm text-stone-400">
