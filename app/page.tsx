@@ -10,7 +10,21 @@ import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
 import { Filigrana } from "@/components/Filigrana";
 import { createClient } from "@/lib/supabase/server";
+import { PREGUNTAS } from "@/lib/faq";
 import type { Producto } from "@/lib/types";
+
+// Mismas preguntas que se muestran en <FAQ />: una sola fuente de
+// verdad para que el marcado FAQPage nunca quede desincronizado del
+// contenido visible (Google puede mostrarlas como resultado enriquecido).
+const jsonLdFAQ = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: PREGUNTAS.map(({ pregunta, respuesta }) => ({
+    "@type": "Question",
+    name: pregunta,
+    acceptedAnswer: { "@type": "Answer", text: respuesta },
+  })),
+};
 
 // Revalidación incremental: los productos se refrescan cada 60 segundos
 // sin sacrificar el renderizado estático inicial (ISR).
@@ -105,6 +119,12 @@ export default function PaginaInicio() {
 
         {/* ================= Preguntas frecuentes ================= */}
         <section id="preguntas" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(jsonLdFAQ).replace(/</g, "\\u003c"),
+            }}
+          />
           <div className="mb-8 text-center">
             <Filigrana className="mb-6" />
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">

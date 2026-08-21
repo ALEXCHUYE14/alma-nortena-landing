@@ -56,8 +56,53 @@ export default async function PaginaProducto({ params }: PaginaProductoProps) {
   const descuento = porcentajeDescuento(producto);
   const agotado = producto.stock === 0;
 
+  // Datos estructurados con la info real del producto: habilita que
+  // Google muestre precio, disponibilidad y la categoría en resultados
+  // enriquecidos (antes no existía ningún marcado por producto).
+  const jsonLdProducto = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: producto.nombre,
+    description: producto.descripcion || siteConfig.descripcion,
+    image: producto.imagen_url,
+    sku: producto.id,
+    category: producto.categoria,
+    brand: { "@type": "Brand", name: siteConfig.nombre },
+    offers: {
+      "@type": "Offer",
+      url: `${siteConfig.url}/producto/${producto.id}`,
+      priceCurrency: "PEN",
+      price: producto.precio,
+      availability: agotado
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
+    },
+  };
+
+  const jsonLdMigas = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: siteConfig.url },
+      { "@type": "ListItem", position: 2, name: producto.categoria },
+      { "@type": "ListItem", position: 3, name: producto.nombre },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLdProducto).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLdMigas).replace(/</g, "\\u003c"),
+        }}
+      />
       <Navbar />
 
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-32 sm:px-6 lg:pt-44">
