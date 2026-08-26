@@ -1,9 +1,11 @@
 import { Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { TrustBar } from "@/components/TrustBar";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
+import { Combos } from "@/components/Combos";
 import { ComoComprar } from "@/components/ComoComprar";
 import { CraftsmanshipVideo } from "@/components/CraftsmanshipVideo";
 import { Testimonials } from "@/components/Testimonials";
@@ -87,6 +89,11 @@ export default function PaginaInicio() {
           </Suspense>
         </section>
 
+        {/* ================= Arma tu set (se omite si no hay combos activos) ================= */}
+        <Suspense fallback={null}>
+          <Combos />
+        </Suspense>
+
         {/* ================= Cómo comprar ================= */}
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
           <div className="mb-12 text-center">
@@ -127,6 +134,12 @@ export default function PaginaInicio() {
                 eventos que quieres lucir distinta. Todo con una guía
                 cercana por WhatsApp y envío el mismo día en Piura.
               </p>
+              <Link
+                href="/nuestra-historia"
+                className="mt-5 inline-block text-sm font-medium text-amber-800 underline underline-offset-4"
+              >
+                Conoce nuestra historia completa →
+              </Link>
             </div>
           </div>
         </section>

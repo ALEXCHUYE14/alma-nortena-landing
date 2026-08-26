@@ -5,8 +5,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/CartProvider";
 import { FavoritesProvider } from "@/components/FavoritesProvider";
 import { RecentlyViewedProvider } from "@/components/RecentlyViewedProvider";
+import { CompareProvider } from "@/components/CompareProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import { WhatsAppFlotante } from "@/components/WhatsAppFlotante";
+import { CompareBar } from "@/components/CompareBar";
 import { siteConfig } from "@/lib/config";
 import "./globals.css";
 
@@ -54,6 +56,11 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: siteConfig.nombre,
+  },
   other: {
     "geo.region": "PE-PIU",
     "geo.placename": "Piura",
@@ -105,8 +112,11 @@ export default function RootLayout({
           <CartProvider>
             <FavoritesProvider>
               <RecentlyViewedProvider>
-                {children}
-                <WhatsAppFlotante />
+                <CompareProvider>
+                  {children}
+                  <WhatsAppFlotante />
+                  <CompareBar />
+                </CompareProvider>
               </RecentlyViewedProvider>
             </FavoritesProvider>
           </CartProvider>

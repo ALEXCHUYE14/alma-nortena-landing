@@ -1,4 +1,4 @@
-import type { ItemCarrito, Producto, Resena } from "@/lib/types";
+import type { ComboConProductos, ItemCarrito, Producto, Resena } from "@/lib/types";
 
 /**
  * Configuración central del sitio.
@@ -30,12 +30,17 @@ export const siteConfig = {
   },
 } as const;
 
+// Rutas absolutas con "/" al inicio (no solo "#ancla"): el Navbar y el
+// Footer se renderizan en todas las páginas, no solo en la portada. Un
+// href="#nosotras" en /producto/[id] o /favoritos no hace nada porque
+// esa ancla no existe ahí; con "/#nosotras" el navegador primero va a
+// la portada y luego salta a la sección, funcione desde donde funcione.
 export const enlacesNavegacion = [
-  { href: "#coleccion", etiqueta: "Colección" },
-  { href: "#nosotras", etiqueta: "Nuestra historia" },
-  { href: "#preguntas", etiqueta: "Preguntas frecuentes" },
-  { href: "#suscripcion", etiqueta: "Club GRC" },
-  { href: "#contacto", etiqueta: "Contacto" },
+  { href: "/#coleccion", etiqueta: "Colección" },
+  { href: "/#nosotras", etiqueta: "Nuestra historia" },
+  { href: "/#preguntas", etiqueta: "Preguntas frecuentes" },
+  { href: "/#suscripcion", etiqueta: "Club GRC" },
+  { href: "/#contacto", etiqueta: "Contacto" },
 ] as const;
 
 export function urlWhatsApp(): string {
@@ -68,11 +73,14 @@ export function porcentajeDescuento(producto: Producto): number | null {
 /**
  * Arma el mensaje de WhatsApp con el detalle del pedido (items, cantidades
  * y total) para que la asesora reciba todo el contexto sin preguntar de nuevo.
+ * Si se aplicó un cupón, se detalla el subtotal, el descuento y el total
+ * final por separado (más claro para la asesora que un solo número).
  */
 export function urlWhatsAppPedido(
   items: ItemCarrito[],
-  total: number,
-  metodoPago: "Yape" | "Coordinar pago"
+  subtotal: number,
+  metodoPago: "Yape" | "Coordinar pago",
+  cupon?: { codigo: string; descuento: number }
 ): string {
   const detalle = items
     .map(
@@ -81,9 +89,17 @@ export function urlWhatsAppPedido(
     )
     .join("\n");
 
+  const totalFinal = cupon ? Math.max(0, subtotal - cupon.descuento) : subtotal;
+
+  const lineasTotal = cupon
+    ? `Subtotal: ${formatearPrecio(subtotal)}\n` +
+      `Cupón (${cupon.codigo}): -${formatearPrecio(cupon.descuento)}\n` +
+      `Total: ${formatearPrecio(totalFinal)}\n`
+    : `Total: ${formatearPrecio(subtotal)}\n`;
+
   const mensaje =
     `Hola 👋 Quiero confirmar mi pedido en GRC Bisutería:\n\n${detalle}\n\n` +
-    `Total: ${formatearPrecio(total)}\n` +
+    lineasTotal +
     `Método de pago: ${metodoPago}\n\n` +
     `Quedo atenta a la confirmación. ¡Gracias!`;
 
@@ -101,6 +117,44 @@ export function urlWhatsAppFavoritos(productos: Producto[]): string {
 
   const mensaje =
     `Hola 👋 Me interesan estas piezas de GRC Bisutería:\n\n${detalle}\n\n` +
+    `¿Podrían confirmarme disponibilidad? ¡Gracias!`;
+
+  return `https://wa.me/${siteConfig.whatsapp.numero}?text=${encodeURIComponent(mensaje)}`;
+}
+
+/**
+ * Enlace público (sin login) a una selección de favoritos para
+ * compartir con alguien más — p. ej. para pedir un regalo.
+ */
+export function urlListaCompartida(productoIds: string[]): string {
+  const parametros = new URLSearchParams({ ids: productoIds.join(",") });
+  return `${siteConfig.url}/favoritos/compartir?${parametros.toString()}`;
+}
+
+/**
+ * A diferencia de urlWhatsAppFavoritos (que le escribe a la tienda para
+ * consultar disponibilidad), este mensaje es para reenviar a un tercero
+ * —sin número fijo— así WhatsApp deja elegir a quién enviárselo.
+ */
+export function urlWhatsAppCompartirLista(productos: Producto[]): string {
+  const link = urlListaCompartida(productos.map((p) => p.id));
+  const mensaje = `¡Hola! 💛 Mira esta selección de ${siteConfig.nombre} que me encantó:\n\n${link}`;
+  return `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+}
+
+/**
+ * Arma el mensaje de WhatsApp para pedir un set/combo al precio
+ * especial (no pasa por el carrito: el precio del combo es distinto
+ * a la suma de precios individuales de cada producto).
+ */
+export function urlWhatsAppCombo(combo: ComboConProductos): string {
+  const detalle = combo.productos
+    .map((p) => `• ${p.nombre} — ${formatearPrecio(p.precio)}`)
+    .join("\n");
+
+  const mensaje =
+    `Hola 👋 Quiero pedir el "${combo.nombre}" de GRC Bisutería:\n\n${detalle}\n\n` +
+    `Precio del set: ${formatearPrecio(combo.precio_combo)}\n\n` +
     `¿Podrían confirmarme disponibilidad? ¡Gracias!`;
 
   return `https://wa.me/${siteConfig.whatsapp.numero}?text=${encodeURIComponent(mensaje)}`;

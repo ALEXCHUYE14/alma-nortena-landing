@@ -5,11 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, Eye, Heart, PackageX, ShoppingBag } from "lucide-react";
+import { Check, Eye, Heart, PackageX, Scale, ShoppingBag } from "lucide-react";
 import type { Producto } from "@/lib/types";
 import { formatearPrecio, porcentajeDescuento } from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
 import { useFavoritos } from "@/components/FavoritesProvider";
+import { useComparar, MAXIMO_COMPARAR } from "@/components/CompareProvider";
 import { QuickViewModal } from "@/components/QuickViewModal";
 
 const UMBRAL_POCAS_UNIDADES = 5;
@@ -59,6 +60,7 @@ export function ProductCard({
 }) {
   const { agregarProducto } = useCarrito();
   const { esFavorito, alternarFavorito } = useFavoritos();
+  const { comparar, enComparacion, alternarComparacion } = useComparar();
   const [agregado, setAgregado] = useState(false);
 
   const pocasUnidades = producto.stock > 0 && producto.stock <= UMBRAL_POCAS_UNIDADES;
@@ -66,6 +68,8 @@ export function ProductCard({
   const descuento = porcentajeDescuento(producto);
   const favorito = esFavorito(producto.id);
   const nuevo = esProductoNuevo(producto.created_at);
+  const enLaComparacion = enComparacion(producto.id);
+  const comparacionLlena = !enLaComparacion && comparar.length >= MAXIMO_COMPARAR;
 
   const manejarAgregar = () => {
     if (agotado) return;
@@ -84,6 +88,13 @@ export function ProductCard({
     e.preventDefault();
     e.stopPropagation();
     onVistaRapida(producto);
+  };
+
+  const manejarComparar = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (comparacionLlena) return;
+    alternarComparacion(producto);
   };
 
   return (
@@ -157,6 +168,23 @@ export function ProductCard({
               className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-stone-900 shadow-sm backdrop-blur-sm transition-colors hover:bg-white"
             >
               <Eye size={15} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={manejarComparar}
+              disabled={comparacionLlena}
+              aria-label={enLaComparacion ? "Quitar de comparación" : "Añadir a comparación"}
+              aria-pressed={enLaComparacion}
+              title={comparacionLlena ? `Máximo ${MAXIMO_COMPARAR} productos para comparar` : undefined}
+              className={`flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors ${
+                enLaComparacion
+                  ? "bg-amber-800 text-stone-50"
+                  : comparacionLlena
+                    ? "cursor-not-allowed bg-white/60 text-stone-300"
+                    : "bg-white/90 text-stone-900 hover:bg-white"
+              }`}
+            >
+              <Scale size={15} aria-hidden="true" />
             </button>
           </div>
         </div>

@@ -1,9 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ShoppingBag, Trash2 } from "lucide-react";
-import { formatearPrecio, urlWhatsAppFavoritos } from "@/lib/config";
+import { Check, Heart, Share2, ShoppingBag, Trash2 } from "lucide-react";
+import {
+  formatearPrecio,
+  siteConfig,
+  urlListaCompartida,
+  urlWhatsAppCompartirLista,
+  urlWhatsAppFavoritos,
+} from "@/lib/config";
 import { useCarrito } from "@/components/CartProvider";
 import { useFavoritos } from "@/components/FavoritesProvider";
 import { IconoWhatsApp } from "@/components/IconoWhatsApp";
@@ -11,6 +18,29 @@ import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 export function FavoritesPage() {
   const { favoritos, quitarFavorito } = useFavoritos();
   const { agregarProducto } = useCarrito();
+  const [compartido, setCompartido] = useState(false);
+
+  const compartirLista = async () => {
+    const link = urlListaCompartida(favoritos.map((p) => p.id));
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title: `Selección de ${siteConfig.nombre}`,
+          text: `Mira esta selección de ${siteConfig.nombre} que me encantó`,
+          url: link,
+        });
+        setCompartido(true);
+        window.setTimeout(() => setCompartido(false), 1800);
+      } catch {
+        // El visitante cerró el cuadro de compartir nativo sin elegir
+        // nada: no es un error, simplemente no hacemos nada más.
+      }
+      return;
+    }
+
+    window.open(urlWhatsAppCompartirLista(favoritos), "_blank", "noopener,noreferrer");
+  };
 
   if (favoritos.length === 0) {
     return (
@@ -39,15 +69,29 @@ export function FavoritesPage() {
         <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold text-stone-900 sm:text-3xl">
           Tus favoritos
         </h1>
-        <a
-          href={urlWhatsAppFavoritos(favoritos)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900"
-        >
-          <IconoWhatsApp size={16} />
-          Consultar todos por WhatsApp
-        </a>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={compartirLista}
+            className="inline-flex items-center gap-2 rounded-full border border-amber-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-amber-800 transition-colors hover:bg-amber-800/5"
+          >
+            {compartido ? (
+              <Check size={16} aria-hidden="true" />
+            ) : (
+              <Share2 size={16} aria-hidden="true" />
+            )}
+            {compartido ? "Compartido" : "Compartir lista"}
+          </button>
+          <a
+            href={urlWhatsAppFavoritos(favoritos)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-amber-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-50 transition-colors hover:bg-amber-900"
+          >
+            <IconoWhatsApp size={16} />
+            Consultar todos por WhatsApp
+          </a>
+        </div>
       </div>
 
       <ul className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">

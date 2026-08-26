@@ -1,19 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
+  AlertCircle,
   Banknote,
   CheckCircle2,
+  Loader2,
   QrCode,
+  Tag,
   X,
 } from "lucide-react";
 import type { ItemCarrito } from "@/lib/types";
 import { formatearPrecio, urlWhatsAppPedido } from "@/lib/config";
 import { IconoWhatsApp } from "@/components/IconoWhatsApp";
+import { createClient } from "@/lib/supabase/client";
 
 type MetodoPago = "yape" | "coordinar";
+
+interface CuponAplicado {
+  codigo: string;
+  tipo: "porcentaje" | "monto_fijo";
+  valor: number;
+}
 
 interface CheckoutModalProps {
   items: ItemCarrito[];
@@ -31,8 +41,67 @@ export function CheckoutModal({
   const [metodo, setMetodo] = useState<MetodoPago>("yape");
   const [qrError, setQrError] = useState(false);
 
+  const [codigoCupon, setCodigoCupon] = useState("");
+  const [cuponAplicado, setCuponAplicado] = useState<CuponAplicado | null>(null);
+  const [validandoCupon, setValidandoCupon] = useState(false);
+  const [errorCupon, setErrorCupon] = useState("");
+
+  const descuento = cuponAplicado
+    ? cuponAplicado.tipo === "porcentaje"
+      ? total * (cuponAplicado.valor / 100)
+      : Math.min(cuponAplicado.valor, total)
+    : 0;
+  const totalFinal = Math.max(0, total - descuento);
+
+  const aplicarCupon = async () => {
+    const codigo = codigoCupon.trim().toUpperCase();
+    setErrorCupon("");
+
+    if (!codigo) {
+      setErrorCupon("Escribe un código de cupón.");
+      return;
+    }
+
+    setValidandoCupon(true);
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from("cupones")
+      .select("codigo, tipo, valor, fecha_expiracion")
+      .eq("codigo", codigo)
+      .eq("activo", true)
+      .maybeSingle();
+    setValidandoCupon(false);
+
+    if (error || !data) {
+      setErrorCupon("Ese cupón no existe o ya no está activo.");
+      return;
+    }
+
+    if (data.fecha_expiracion && new Date(data.fecha_expiracion) < new Date()) {
+      setErrorCupon("Ese cupón ya venció.");
+      return;
+    }
+
+    setCuponAplicado({
+      codigo: data.codigo,
+      tipo: data.tipo as "porcentaje" | "monto_fijo",
+      valor: data.valor,
+    });
+    setCodigoCupon("");
+  };
+
+  const quitarCupon = () => {
+    setCuponAplicado(null);
+    setErrorCupon("");
+  };
+
   const confirmarPedido = (metodoPago: "Yape" | "Coordinar pago") => {
-    const url = urlWhatsAppPedido(items, total, metodoPago);
+    const url = urlWhatsAppPedido(
+      items,
+      total,
+      metodoPago,
+      cuponAplicado ? { codigo: cuponAplicado.codigo, descuento } : undefined
+    );
     window.open(url, "_blank", "noopener,noreferrer");
     onPedidoEnviado();
   };
@@ -74,13 +143,76 @@ export function CheckoutModal({
         </div>
 
         <div className="mt-3 rounded-xl bg-stone-50 p-3 text-sm">
+          {cuponAplicado && (
+            <>
+              <div className="flex items-center justify-between text-stone-500">
+                <span>Subtotal</span>
+                <span>{formatearPrecio(total)}</span>
+              </div>
+              <div className="mt-1 flex items-center justify-between text-yellow-700">
+                <span>Cupón {cuponAplicado.codigo}</span>
+                <span>-{formatearPrecio(descuento)}</span>
+              </div>
+              <div className="mt-1.5 border-t border-stone-200 pt-1.5" />
+            </>
+          )}
           <div className="flex items-center justify-between font-semibold text-stone-900">
             <span>Total a pagar</span>
             <span className="font-[family-name:var(--font-display)] text-lg text-amber-800">
-              {formatearPrecio(total)}
+              {formatearPrecio(totalFinal)}
             </span>
           </div>
         </div>
+
+        {/* Cupón de descuento */}
+        {cuponAplicado ? (
+          <div className="mt-3 flex items-center justify-between rounded-xl border border-yellow-600/30 bg-yellow-600/5 px-3 py-2 text-sm text-stone-700">
+            <span className="flex items-center gap-1.5">
+              <Tag size={14} className="text-yellow-600" aria-hidden="true" />
+              Cupón <strong>{cuponAplicado.codigo}</strong> aplicado
+            </span>
+            <button
+              type="button"
+              onClick={quitarCupon}
+              className="text-xs font-medium text-stone-500 underline underline-offset-4 hover:text-stone-700"
+            >
+              Quitar
+            </button>
+          </div>
+        ) : (
+          <div className="mt-3">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={codigoCupon}
+                disabled={validandoCupon}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setCodigoCupon(e.target.value.toUpperCase())
+                }
+                placeholder="¿Tienes un cupón?"
+                className="w-full rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-amber-800 focus:bg-white focus:outline-none disabled:opacity-60"
+              />
+              <button
+                type="button"
+                onClick={aplicarCupon}
+                disabled={validandoCupon}
+                className="shrink-0 rounded-xl border border-amber-800 px-4 text-xs font-bold uppercase tracking-wider text-amber-800 transition-colors hover:bg-amber-800/5 disabled:opacity-60"
+              >
+                {validandoCupon ? (
+                  <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+                ) : (
+                  "Aplicar"
+                )}
+              </button>
+            </div>
+            {errorCupon && (
+              <p role="alert" className="mt-1.5 flex items-start gap-1.5 text-xs text-red-700">
+                <AlertCircle size={13} className="mt-0.5 shrink-0" aria-hidden="true" />
+                {errorCupon}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Selector de método de pago */}
         <div className="mt-5 grid grid-cols-2 gap-2 rounded-xl bg-stone-100 p-1">
@@ -135,7 +267,7 @@ export function CheckoutModal({
             <p className="mt-3 text-sm text-stone-500">
               Escanea el QR desde tu app Yape y paga exactamente{" "}
               <span className="font-semibold text-stone-900">
-                {formatearPrecio(total)}
+                {formatearPrecio(totalFinal)}
               </span>
               .
             </p>

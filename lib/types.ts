@@ -28,6 +28,29 @@ export interface Resena {
   created_at: string;
 }
 
+export interface Cupon {
+  id: string;
+  codigo: string;
+  tipo: "porcentaje" | "monto_fijo";
+  valor: number;
+  activo: boolean;
+  fecha_expiracion: string | null;
+}
+
+export interface Combo {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  producto_ids: string[];
+  precio_combo: number;
+  activo: boolean;
+  created_at: string;
+}
+
+export interface ComboConProductos extends Combo {
+  productos: Producto[];
+}
+
 export type TipoDocumento = "DNI" | "Carné de Extranjería" | "Pasaporte";
 
 export const TIPOS_DOCUMENTO: TipoDocumento[] = [
