@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { ProductImageLightbox } from "@/components/ProductImageLightbox";
 import { ProductoDetalleAcciones } from "@/components/ProductoDetalleAcciones";
 import { ProductReviews } from "@/components/ProductReviews";
+import { RelatedProducts } from "@/components/RelatedProducts";
+import { RegistrarVisto, RecentlyViewedSection } from "@/components/RecentlyViewedSection";
 import { createClient } from "@/lib/supabase/server";
 import { formatearPrecio, porcentajeDescuento, siteConfig } from "@/lib/config";
 import type { Producto } from "@/lib/types";
@@ -104,6 +106,7 @@ export default async function PaginaProducto({ params }: PaginaProductoProps) {
         }}
       />
       <Navbar />
+      <RegistrarVisto producto={producto} />
 
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-32 sm:px-6 lg:pt-44">
         <nav aria-label="Ruta de navegación" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-stone-500">
@@ -117,28 +120,23 @@ export default async function PaginaProducto({ params }: PaginaProductoProps) {
         </nav>
 
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone-100">
-            <Image
-              src={producto.imagen_url}
-              alt={producto.nombre}
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-
-            {agotado ? (
-              <span className="absolute left-4 top-4 rounded-full bg-stone-900 px-3 py-1 text-xs font-bold uppercase tracking-wide text-stone-50 shadow-sm">
-                Agotado
-              </span>
-            ) : (
-              descuento !== null && (
-                <span className="absolute left-4 top-4 rounded-full bg-blush px-3 py-1 text-xs font-bold uppercase tracking-wide text-stone-900 shadow-sm">
-                  -{descuento}% dscto
+          <ProductImageLightbox
+            src={producto.imagen_url}
+            alt={producto.nombre}
+            badge={
+              agotado ? (
+                <span className="absolute left-4 top-4 rounded-full bg-stone-900 px-3 py-1 text-xs font-bold uppercase tracking-wide text-stone-50 shadow-sm">
+                  Agotado
                 </span>
+              ) : (
+                descuento !== null && (
+                  <span className="absolute left-4 top-4 rounded-full bg-blush px-3 py-1 text-xs font-bold uppercase tracking-wide text-stone-900 shadow-sm">
+                    -{descuento}% dscto
+                  </span>
+                )
               )
-            )}
-          </div>
+            }
+          />
 
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-yellow-600">
@@ -185,6 +183,8 @@ export default async function PaginaProducto({ params }: PaginaProductoProps) {
         </div>
 
         <ProductReviews productoId={producto.id} />
+        <RelatedProducts categoria={producto.categoria} idExcluido={producto.id} />
+        <RecentlyViewedSection excluirId={producto.id} />
       </main>
 
       <Footer />

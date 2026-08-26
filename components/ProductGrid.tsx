@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Eye, Heart, PackageX, ShoppingBag } from "lucide-react";
 import type { Producto } from "@/lib/types";
@@ -12,6 +13,12 @@ import { useFavoritos } from "@/components/FavoritesProvider";
 import { QuickViewModal } from "@/components/QuickViewModal";
 
 const UMBRAL_POCAS_UNIDADES = 5;
+const DIAS_PRODUCTO_NUEVO = 14;
+
+function esProductoNuevo(creadoEn: string): boolean {
+  const dias = (Date.now() - new Date(creadoEn).getTime()) / (1000 * 60 * 60 * 24);
+  return dias <= DIAS_PRODUCTO_NUEVO;
+}
 
 /* ============================================================
    Skeleton — se usa como fallback de <Suspense> en app/page.tsx
@@ -41,7 +48,7 @@ export function ProductGridSkeleton() {
 /* ============================================================
    Tarjeta de producto
    ============================================================ */
-function ProductCard({
+export function ProductCard({
   producto,
   indice,
   onVistaRapida,
@@ -58,6 +65,7 @@ function ProductCard({
   const agotado = producto.stock === 0;
   const descuento = porcentajeDescuento(producto);
   const favorito = esFavorito(producto.id);
+  const nuevo = esProductoNuevo(producto.created_at);
 
   const manejarAgregar = () => {
     if (agotado) return;
@@ -113,12 +121,19 @@ function ProductCard({
                 : "Envío gratis"}
           </span>
 
-          {/* Badge de descuento (solo si hay precio_original real) */}
-          {descuento !== null && (
-            <span className="absolute right-2.5 top-2.5 rounded-full bg-blush px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-stone-900 shadow-sm">
-              -{descuento}%
-            </span>
-          )}
+          {/* Nuevo + descuento (apilados si coinciden) */}
+          <div className="absolute right-2.5 top-2.5 flex flex-col items-end gap-1.5">
+            {nuevo && (
+              <span className="rounded-full bg-stone-900 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-stone-50 shadow-sm">
+                Nuevo
+              </span>
+            )}
+            {descuento !== null && (
+              <span className="rounded-full bg-blush px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-stone-900 shadow-sm">
+                -{descuento}%
+              </span>
+            )}
+          </div>
 
           {/* Favoritos + vista rápida */}
           <div className="absolute bottom-2.5 right-2.5 flex flex-col gap-1.5">
@@ -210,6 +225,17 @@ export function ProductGrid({ productos }: { productos: Producto[] }) {
   const [orden, setOrden] = useState<Orden>("recientes");
   const [precioMax, setPrecioMax] = useState<number | null>(null);
   const [productoVistaRapida, setProductoVistaRapida] = useState<Producto | null>(null);
+  const searchParams = useSearchParams();
+  const categoriaURL = searchParams.get("categoria");
+
+  // Permite llegar directo a una categoría filtrada desde afuera (p. ej.
+  // las tarjetas de "Explora por categoría" en la portada), validando
+  // que sea una categoría real del catálogo antes de aplicarla.
+  useEffect(() => {
+    if (categoriaURL && productos.some((p) => p.categoria === categoriaURL)) {
+      setCategoria(categoriaURL);
+    }
+  }, [categoriaURL, productos]);
 
   const precios = productos.map((p) => p.precio);
   const precioMinCatalogo = precios.length ? Math.floor(Math.min(...precios)) : 0;

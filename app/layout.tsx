@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/CartProvider";
 import { FavoritesProvider } from "@/components/FavoritesProvider";
+import { RecentlyViewedProvider } from "@/components/RecentlyViewedProvider";
 import { AuthProvider } from "@/components/AuthProvider";
 import { WhatsAppFlotante } from "@/components/WhatsAppFlotante";
 import { siteConfig } from "@/lib/config";
@@ -103,8 +104,10 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <FavoritesProvider>
-              {children}
-              <WhatsAppFlotante />
+              <RecentlyViewedProvider>
+                {children}
+                <WhatsAppFlotante />
+              </RecentlyViewedProvider>
             </FavoritesProvider>
           </CartProvider>
         </AuthProvider>

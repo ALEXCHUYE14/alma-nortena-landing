@@ -1,8 +1,11 @@
 import { Suspense } from "react";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { TrustBar } from "@/components/TrustBar";
+import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { ComoComprar } from "@/components/ComoComprar";
+import { CraftsmanshipVideo } from "@/components/CraftsmanshipVideo";
 import { Testimonials } from "@/components/Testimonials";
 import { ProductGrid, ProductGridSkeleton } from "@/components/ProductGrid";
 import { LeadForm } from "@/components/LeadForm";
@@ -61,6 +64,11 @@ export default function PaginaInicio() {
         <Hero />
         <TrustBar />
 
+        {/* ================= Explora por categoría (se omite si no hay datos) ================= */}
+        <Suspense fallback={null}>
+          <FeaturedCategories />
+        </Suspense>
+
         {/* ================= Colección ================= */}
         <section id="coleccion" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
           <Filigrana className="mb-6" />
@@ -96,20 +104,36 @@ export default function PaginaInicio() {
 
         {/* ================= Historia ================= */}
         <section id="nosotras" className="textura-toquilla py-16 lg:py-24">
-          <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-            <Filigrana className="mb-6" />
-            <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
-              Elegancia con esencia piurana
-            </h2>
-            <p className="mt-5 leading-relaxed text-stone-900/75">
-              En GRC Bisutería creemos que verte bien no debería ser
-              complicado ni costoso. Seleccionamos aretes, collares, pulseras
-              y sets combinados pensados para la mujer real: para el diario,
-              para el colegio, para la oficina y para esos eventos que quieres
-              lucir distinta. Todo con una guía cercana por WhatsApp y envío
-              el mismo día en Piura.
-            </p>
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-xl shadow-amber-800/10 lg:order-2">
+              <Image
+                src="https://images.unsplash.com/photo-1620291699655-d958150a3ff8?w=900&q=80"
+                alt="Mujer con un collar delicado de dije, look casual elegante"
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="text-center lg:order-1 lg:text-left">
+              <Filigrana className="mb-6 lg:justify-start" />
+              <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
+                Elegancia con esencia piurana
+              </h2>
+              <p className="mt-5 leading-relaxed text-stone-900/75">
+                En GRC Bisutería creemos que verte bien no debería ser
+                complicado ni costoso. Seleccionamos aretes, collares,
+                pulseras y sets combinados pensados para la mujer real: para
+                el diario, para el colegio, para la oficina y para esos
+                eventos que quieres lucir distinta. Todo con una guía
+                cercana por WhatsApp y envío el mismo día en Piura.
+              </p>
+            </div>
           </div>
+        </section>
+
+        {/* ================= Artesanía ================= */}
+        <section className="py-16 lg:py-24">
+          <CraftsmanshipVideo />
         </section>
 
         {/* ================= Testimonios (solo si hay reseñas reales) ================= */}
