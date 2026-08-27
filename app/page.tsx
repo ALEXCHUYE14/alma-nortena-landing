@@ -8,6 +8,7 @@ import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { Combos } from "@/components/Combos";
 import { ComoComprar } from "@/components/ComoComprar";
 import { CraftsmanshipVideo } from "@/components/CraftsmanshipVideo";
+// import { Galeria } from "@/components/Galeria"; // se activa cuando existan las fotos reales en public/galeria/
 import { Testimonials } from "@/components/Testimonials";
 import { ProductGrid, ProductGridSkeleton } from "@/components/ProductGrid";
 import { LeadForm } from "@/components/LeadForm";

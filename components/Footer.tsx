@@ -8,9 +8,9 @@ import { enlacesNavegacion, siteConfig, urlWhatsApp } from "@/lib/config";
 const metodosPago = ["Yape", "Plin", "Transferencia BCP", "Transferencia Interbank"];
 
 const politicas = [
-  { href: "#", etiqueta: "Política de privacidad" },
-  { href: "#", etiqueta: "Cambios y devoluciones" },
-  { href: "#", etiqueta: "Términos y condiciones" },
+  { href: "/politica-de-privacidad", etiqueta: "Política de privacidad" },
+  { href: "/cambios-y-devoluciones", etiqueta: "Cambios y devoluciones" },
+  { href: "/terminos-y-condiciones", etiqueta: "Términos y condiciones" },
   { href: "/libro-de-reclamaciones", etiqueta: "Libro de reclamaciones" },
 ];
 
