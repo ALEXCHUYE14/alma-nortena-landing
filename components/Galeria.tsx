@@ -14,25 +14,22 @@ const FOTOS = [
     src: "/galeria/coleccion.jpeg",
     alt: `Selección de aretes, collares, pulseras y anillos de ${siteConfig.nombre} en tonos dorados y amatista`,
     leyenda: "Nuestra selección, lista para ti",
-    clase: "lg:col-span-2 lg:row-span-2 aspect-[4/3] lg:aspect-square",
   },
   {
     src: "/galeria/detalle.jpeg",
     alt: "Detalle editorial de bisutería dorada con piedras, sobre superficie natural",
     leyenda: "Cada detalle, cuidado al máximo",
-    clase: "aspect-[4/3] lg:aspect-auto",
   },
   {
     src: "/galeria/empaque.jpeg",
     alt: `Collar y aretes de ${siteConfig.nombre} presentados en caja de regalo`,
     leyenda: "Así te llega: lista para regalar",
-    clase: "aspect-[4/3] lg:aspect-auto",
   },
 ] as const;
 
 export function Galeria() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+    <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:py-24">
       <div className="mb-10 text-center">
         <Filigrana className="mb-6" />
         <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold text-stone-900 sm:text-4xl">
@@ -44,20 +41,22 @@ export function Galeria() {
         </p>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2 lg:grid-rows-2">
-        {FOTOS.map(({ src, alt, leyenda, clase }) => (
+      <div className="mx-auto grid max-w-2xl gap-4 grid-cols-2 sm:grid-cols-3">
+        {FOTOS.map(({ src, alt, leyenda }, indice) => (
           <figure
             key={src}
-            className={`group relative overflow-hidden rounded-2xl shadow-lg shadow-amber-800/10 ${clase}`}
+            className={`group relative aspect-square overflow-hidden rounded-xl shadow-md shadow-amber-800/10 ${
+              indice === 0 ? "col-span-2 sm:col-span-1" : ""
+            }`}
           >
             <Image
               src={src}
               alt={alt}
               fill
-              sizes="(min-width: 1024px) 45vw, 90vw"
+              sizes="(min-width: 640px) 220px, 45vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-3 text-sm font-medium text-stone-50">
+            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2 text-xs font-medium text-stone-50">
               {leyenda}
             </figcaption>
           </figure>
