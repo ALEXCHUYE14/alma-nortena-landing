@@ -8,7 +8,7 @@ import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { Combos } from "@/components/Combos";
 import { ComoComprar } from "@/components/ComoComprar";
 import { CraftsmanshipVideo } from "@/components/CraftsmanshipVideo";
-// import { Galeria } from "@/components/Galeria"; // se activa cuando existan las fotos reales en public/galeria/
+import { Galeria } from "@/components/Galeria";
 import { Testimonials } from "@/components/Testimonials";
 import { ProductGrid, ProductGridSkeleton } from "@/components/ProductGrid";
 import { LeadForm } from "@/components/LeadForm";
@@ -144,6 +144,9 @@ export default function PaginaInicio() {
             </div>
           </div>
         </section>
+
+        {/* ================= Galería (fotos reales de marca) ================= */}
+        <Galeria />
 
         {/* ================= Artesanía ================= */}
         <section className="py-16 lg:py-24">

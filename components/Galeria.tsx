@@ -11,19 +11,19 @@ import { siteConfig } from "@/lib/config";
  */
 const FOTOS = [
   {
-    src: "/galeria/coleccion.jpg",
+    src: "/galeria/coleccion.jpeg",
     alt: `Selección de aretes, collares, pulseras y anillos de ${siteConfig.nombre} en tonos dorados y amatista`,
     leyenda: "Nuestra selección, lista para ti",
     clase: "lg:col-span-2 lg:row-span-2 aspect-[4/3] lg:aspect-square",
   },
   {
-    src: "/galeria/detalle.jpg",
+    src: "/galeria/detalle.jpeg",
     alt: "Detalle editorial de bisutería dorada con piedras, sobre superficie natural",
     leyenda: "Cada detalle, cuidado al máximo",
     clase: "aspect-[4/3] lg:aspect-auto",
   },
   {
-    src: "/galeria/empaque.jpg",
+    src: "/galeria/empaque.jpeg",
     alt: `Collar y aretes de ${siteConfig.nombre} presentados en caja de regalo`,
     leyenda: "Así te llega: lista para regalar",
     clase: "aspect-[4/3] lg:aspect-auto",
