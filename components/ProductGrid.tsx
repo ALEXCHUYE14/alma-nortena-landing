@@ -251,7 +251,6 @@ type Orden = "recientes" | "precio_asc" | "precio_desc";
 export function ProductGrid({ productos }: { productos: Producto[] }) {
   const [categoria, setCategoria] = useState<string>(TODAS_CATEGORIAS);
   const [orden, setOrden] = useState<Orden>("recientes");
-  const [precioMax, setPrecioMax] = useState<number | null>(null);
   const [productoVistaRapida, setProductoVistaRapida] = useState<Producto | null>(null);
   const searchParams = useSearchParams();
   const categoriaURL = searchParams.get("categoria");
@@ -264,11 +263,6 @@ export function ProductGrid({ productos }: { productos: Producto[] }) {
       setCategoria(categoriaURL);
     }
   }, [categoriaURL, productos]);
-
-  const precios = productos.map((p) => p.precio);
-  const precioMinCatalogo = precios.length ? Math.floor(Math.min(...precios)) : 0;
-  const precioMaxCatalogo = precios.length ? Math.ceil(Math.max(...precios)) : 0;
-  const precioMaxActivo = precioMax ?? precioMaxCatalogo;
 
   if (productos.length === 0) {
     return (
@@ -291,7 +285,6 @@ export function ProductGrid({ productos }: { productos: Producto[] }) {
 
   const productosFiltrados = productos
     .filter((p) => categoria === TODAS_CATEGORIAS || p.categoria === categoria)
-    .filter((p) => p.precio <= precioMaxActivo)
     .sort((a, b) => {
       if (orden === "precio_asc") return a.precio - b.precio;
       if (orden === "precio_desc") return b.precio - a.precio;
@@ -320,7 +313,7 @@ export function ProductGrid({ productos }: { productos: Producto[] }) {
         </div>
       )}
 
-      <div className="mb-8 flex flex-col items-center justify-between gap-4 border-y border-amber-800/10 py-4 sm:flex-row">
+      <div className="mb-8 flex justify-center border-y border-amber-800/10 py-4">
         <label className="flex items-center gap-2 text-xs text-stone-600">
           <span className="font-bold uppercase tracking-wider text-stone-500">
             Ordenar
@@ -335,23 +328,6 @@ export function ProductGrid({ productos }: { productos: Producto[] }) {
             <option value="precio_desc">Precio: mayor a menor</option>
           </select>
         </label>
-
-        {precioMinCatalogo < precioMaxCatalogo && (
-          <label className="flex w-full items-center gap-3 text-xs text-stone-600 sm:w-64">
-            <span className="shrink-0 font-bold uppercase tracking-wider text-stone-500">
-              Hasta {formatearPrecio(precioMaxActivo)}
-            </span>
-            <input
-              type="range"
-              min={precioMinCatalogo}
-              max={precioMaxCatalogo}
-              value={precioMaxActivo}
-              onChange={(e) => setPrecioMax(Number(e.target.value))}
-              className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-stone-200 accent-amber-800"
-              aria-label="Filtrar por precio máximo"
-            />
-          </label>
-        )}
       </div>
 
       {productosFiltrados.length === 0 ? (
