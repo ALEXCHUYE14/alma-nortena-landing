@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, Mail, MapPin } from "lucide-react";
+import { Clock, Download, Mail, MapPin } from "lucide-react";
 import { Filigrana } from "@/components/Filigrana";
 import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 import { enlacesNavegacion, siteConfig, urlWhatsApp } from "@/lib/config";
@@ -88,6 +88,16 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href={siteConfig.catalogoPdf}
+                  download
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-stone-50"
+                >
+                  <Download size={13} aria-hidden="true" />
+                  Descargar catálogo (PDF)
+                </a>
+              </li>
               {politicas.map((p) =>
                 p.href.startsWith("/") ? (
                   <li key={p.etiqueta}>

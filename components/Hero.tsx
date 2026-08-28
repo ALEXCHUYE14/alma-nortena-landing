@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles, Truck } from "lucide-react";
-import { urlWhatsApp } from "@/lib/config";
+import { Download, Sparkles, Truck } from "lucide-react";
+import { siteConfig, urlWhatsApp } from "@/lib/config";
 import { IconoWhatsApp } from "@/components/IconoWhatsApp";
 
 const aparecer = {
@@ -127,12 +127,25 @@ export function Hero() {
           </a>
         </motion.div>
 
-        <motion.p
+        <motion.a
+          href={siteConfig.catalogoPdf}
+          download
           custom={4}
           initial="hidden"
           animate="visible"
           variants={aparecer}
-          className="mt-6 inline-flex items-center gap-2 text-sm text-stone-100/80"
+          className="mt-5 flex items-center justify-center gap-1.5 text-sm font-medium text-stone-100/90 underline underline-offset-4 transition-colors hover:text-yellow-500"
+        >
+          <Download size={15} aria-hidden="true" />
+          Descargar catálogo completo (PDF)
+        </motion.a>
+
+        <motion.p
+          custom={5}
+          initial="hidden"
+          animate="visible"
+          variants={aparecer}
+          className="mt-4 flex items-center justify-center gap-2 text-sm text-stone-100/80"
         >
           <Truck size={16} className="text-yellow-500" aria-hidden="true" />
           Envío gratis el mismo día en Piura, Castilla y Catacaos

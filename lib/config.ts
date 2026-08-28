@@ -28,6 +28,10 @@ export const siteConfig = {
     facebook: "https://www.facebook.com/share/199ayNwNCM/",
     tiktok: "https://www.tiktok.com/@grc7118?_r=1&_t=ZS-98AkEqm8m2P",
   },
+  // Archivo real en public/catalogo/. Si algún día lo reemplazan por una
+  // versión nueva, basta con cambiar este nombre (o subir el archivo con
+  // el mismo nombre) para que todos los enlaces del sitio sigan sirviendo.
+  catalogoPdf: "/catalogo/GRCBisuteriaCatalogo2026.pdf",
 } as const;
 
 // Rutas absolutas con "/" al inicio (no solo "#ancla"): el Navbar y el
