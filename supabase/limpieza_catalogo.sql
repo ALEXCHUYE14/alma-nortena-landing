@@ -28,74 +28,74 @@ alter table public.productos
 insert into public.productos (nombre, descripcion, precio, precio_original, imagen_url, categoria, stock)
 values
   (
-    'Aretes Statement Piedra Azul',
-    'Aretes largos con piedra azul y cristales, para looks de fiesta o evento.',
+    'Aretes Corazón Perlado',
+    'Aretes en forma de corazón con acabado perlado y baño dorado, para looks de fiesta o evento.',
     24.90,
     34.90,
-    'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=80',
+    '/grecia/grecia-arete-corazon.jpeg',
     'Aretes',
     18
   ),
   (
-    'Aretes Argolla Dorada',
-    'Argollas medianas bañadas en oro, versátiles para el día o la noche.',
+    'Set Aretes Corazón Rojo',
+    'Set de aretes corazón rojo esmaltado a juego con anillo y pulsera, versátiles para el día o la noche.',
     19.90,
     null,
-    'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800&q=80',
+    '/grecia/grecia-arete-set-corazon.jpeg',
     'Aretes',
     16
   ),
   (
-    'Collar Luna y Cristal',
-    'Collar doble capa con dije de luna y cristal, ideal para combinar en capas.',
+    'Collar Cadena Dorada',
+    'Collar de cadena fina bañada en oro, ideal para combinar en capas.',
     28.90,
     null,
-    'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80',
+    '/grecia/grecia-collar-cadenas.jpeg',
     'Collares',
     15
   ),
   (
-    'Collar Dije Martillado',
-    'Collar de cadena fina con dije martillado en acabado dorado.',
+    'Collar Corazón Sagrado',
+    'Collar con dije de corazón sagrado y detalle de piedras de colores, acabado dorado.',
     26.90,
     36.90,
-    'https://images.unsplash.com/photo-1605201206717-cb9eca0d2eb2?w=800&q=80',
+    '/grecia/grecia-collar-corazon.jpeg',
     'Collares',
     12
   ),
   (
-    'Pulsera Infinito Dorada',
-    'Pulsera rígida con diseño de infinitos y baño dorado brillante.',
+    'Pulsera Medalla Virgen',
+    'Pulsera doble de piedras con dije de medalla, baño dorado brillante.',
     18.90,
     24.90,
-    'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=80',
+    '/grecia/grecia-pulsera-medalla.jpeg',
     'Pulseras',
     20
   ),
   (
-    'Pulsera Cadena Gruesa',
-    'Pulsera de cadena gruesa estilo statement, tendencia de temporada.',
+    'Pulsera Piedras Turquesa',
+    'Pulseras de piedras naturales en tono turquesa con dijes dorados, tendencia de temporada.',
     21.90,
     null,
-    'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=800&q=80',
+    '/grecia/grecia-pulsera-turquesa.jpeg',
     'Pulseras',
     14
   ),
   (
-    'Anillo Halo Cristal',
-    'Anillo ajustable con cristal central rodeado de circonias, acabado bicolor.',
+    'Anillo Cadena Dorado',
+    'Anillo ajustable diseño cadena, baño dorado.',
     17.90,
     null,
-    'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80',
+    '/grecia/grecia-anillo-mano.jpeg',
     'Anillos',
     22
   ),
   (
-    'Anillo Serpiente Dorado',
-    'Anillo texturizado diseño serpiente, baño dorado, ajustable.',
+    'Set Anillos Dorados',
+    'Set de anillos apilables con diseños variados: infinito, flores, corazones y piedra, baño dorado.',
     19.90,
     27.90,
-    'https://images.unsplash.com/photo-1677466891347-2ff8dad2f993?w=800&q=80',
+    '/grecia/grecia-anillos-variedad.jpeg',
     'Anillos',
     11
   );

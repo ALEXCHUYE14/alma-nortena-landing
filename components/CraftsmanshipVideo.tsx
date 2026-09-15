@@ -7,8 +7,7 @@ import { Gem } from "lucide-react";
 // regalías para uso comercial.
 const VIDEO_ARTESANIA =
   "https://videos.pexels.com/video-files/6263491/6263491-hd_1920_1080_25fps.mp4";
-const POSTER_ARTESANIA =
-  "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1200&q=80";
+const POSTER_ARTESANIA = "/grecia/grecia-anillos-dorados.jpeg";
 
 export function CraftsmanshipVideo() {
   const [reducirMovimiento, setReducirMovimiento] = useState(false);
@@ -25,7 +24,7 @@ export function CraftsmanshipVideo() {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={POSTER_ARTESANIA}
-            alt="Detalle de un anillo con cristal"
+            alt="Detalle de anillos dorados"
             className="h-full w-full object-cover"
           />
         ) : (

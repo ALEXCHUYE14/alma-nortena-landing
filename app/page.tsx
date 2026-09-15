@@ -115,8 +115,8 @@ export default function PaginaInicio() {
           <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-xl shadow-amber-800/10 lg:order-2">
               <Image
-                src="https://images.unsplash.com/photo-1620291699655-d958150a3ff8?w=900&q=80"
-                alt="Mujer con un collar delicado de dije, look casual elegante"
+                src="/grecia/grecia-collar-corazon.jpeg"
+                alt="Collar con dije de corazón sagrado y aretes a juego, presentados en maniquí de exhibición"
                 fill
                 sizes="(min-width: 1024px) 45vw, 90vw"
                 className="object-cover"

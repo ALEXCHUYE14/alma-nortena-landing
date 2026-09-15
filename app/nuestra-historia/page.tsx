@@ -89,8 +89,8 @@ export default function PaginaNuestraHistoria() {
 
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-xl shadow-amber-800/10">
               <Image
-                src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=900&q=80"
-                alt="Bisutería moderna de GRC Bisutería, collar delicado"
+                src="/grecia/grecia-collar-cadenas.jpeg"
+                alt="Bisutería moderna de GRC Bisutería, cadenas doradas sostenidas en la mano"
                 fill
                 priority
                 sizes="(min-width: 1024px) 45vw, 90vw"

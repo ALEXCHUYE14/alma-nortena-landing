@@ -20,8 +20,7 @@ const aparecer = {
 // mientras el video carga o si el navegador no puede reproducirlo.
 const VIDEO_PORTADA =
   "https://videos.pexels.com/video-files/5815082/5815082-hd_1920_1080_25fps.mp4";
-const POSTER_PORTADA =
-  "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1600&q=80";
+const POSTER_PORTADA = "/grecia/grecia-pulsera-turquesa.jpeg";
 
 export function Hero() {
   // Respeta la preferencia de movimiento reducido: en vez del video en
