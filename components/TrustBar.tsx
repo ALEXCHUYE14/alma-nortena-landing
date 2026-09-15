@@ -4,7 +4,7 @@ const ITEMS = [
   {
     Icono: Truck,
     titulo: "Envío el mismo día",
-    detalle: "Gratis en Piura, Castilla y Catacaos",
+    detalle: "Gratis en Piura Metropolitana, Castilla, 26 de Octubre y Catacaos",
   },
   {
     Icono: ShieldCheck,

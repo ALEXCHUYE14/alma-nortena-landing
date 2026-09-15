@@ -147,7 +147,8 @@ export function Hero() {
           className="mt-4 flex items-center justify-center gap-2 text-sm text-stone-100/80"
         >
           <Truck size={16} className="text-yellow-500" aria-hidden="true" />
-          Envío gratis el mismo día en Piura, Castilla y Catacaos
+          Envío gratis el mismo día en Piura Metropolitana, Castilla, 26 de
+          Octubre y Catacaos
         </motion.p>
       </div>
 
